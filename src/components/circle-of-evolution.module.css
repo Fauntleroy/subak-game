@@ -1,0 +1,22 @@
+.fruits {
+  aspect-ratio: 1/1;
+  position: relative;
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+.fruit {
+  padding: 0;
+  offset-path: circle(35% at 50% 50%);
+  offset-rotate: 0deg;
+  position: absolute;
+  width: 15%;
+  aspect-ratio: 1/1;
+}
+
+.fruit img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
