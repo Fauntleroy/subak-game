@@ -24,14 +24,15 @@ export function Game({ gameRef }) {
           constraintIterations: 4
         }
       },
-      parent: gameElementRef.current
-      // scale: {
-      //   width: GAME_WIDTH,
-      //   height: GAME_HEIGHT,
-      //   parent: gameElementRef.current,
-      //   expandParent: false,
-      //   mode: Phaser.Scale.ScaleModes.WIDTH_CONTROLS_HEIGHT
-      // }
+      parent: gameElementRef.current,
+      scale: {
+        width: GAME_WIDTH * window.devicePixelRatio,
+        height: GAME_HEIGHT * window.devicePixelRatio,
+        zoom: 1 / window.devicePixelRatio
+        // parent: gameElementRef.current,
+        // expandParent: false,
+        // mode: Phaser.Scale.ScaleModes.WIDTH_CONTROLS_HEIGHT
+      }
     });
 
     gameRef.current = game;
