@@ -5,6 +5,8 @@ import { Main } from '../game/scenes/main';
 
 const GAME_WIDTH = 600;
 const GAME_HEIGHT = GAME_WIDTH * 1.5;
+const DPR = window.devicePixelRatio;
+// const DPR = 1;
 
 export function Game({ gameRef }) {
   const gameElementRef = useRef(null);
@@ -21,14 +23,15 @@ export function Game({ gameRef }) {
           // debug: true,
           positionIterations: 8,
           velocityIterations: 6,
-          constraintIterations: 4
+          constraintIterations: 4,
+          gravity: { x: 0, y: window.devicePixelRatio }
         }
       },
       parent: gameElementRef.current,
       scale: {
-        width: GAME_WIDTH * window.devicePixelRatio,
-        height: GAME_HEIGHT * window.devicePixelRatio,
-        zoom: 1 / window.devicePixelRatio
+        width: GAME_WIDTH * DPR,
+        height: GAME_HEIGHT * DPR,
+        zoom: 1 / DPR
         // parent: gameElementRef.current,
         // expandParent: false,
         // mode: Phaser.Scale.ScaleModes.WIDTH_CONTROLS_HEIGHT
