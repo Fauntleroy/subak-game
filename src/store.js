@@ -8,7 +8,7 @@ const store = createStore((set) => ({
 
   upcomingFruit: null,
   setUpcomingFruit(_upcomingFruit) {
-    set({ upcomingFruit: _upcomingFruit });
+    set({ upcomingFruit: { ..._upcomingFruit, uuid: crypto.randomUUID() } });
   },
 
   score: 0,

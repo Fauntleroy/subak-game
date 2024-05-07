@@ -36,6 +36,17 @@
   grid-area: next-fruit;
 }
 
+.nextFruitSlot {
+  width: 2em;
+  height: 2em;
+  position: relative;
+}
+
+.nextFruitImage {
+  position: absolute;
+  width: 100%;
+}
+
 .circleOfEvolution {
   grid-area: circle-of-evolution;
 }
@@ -57,8 +68,4 @@
   font-size: 1em;
   font-style: normal;
   font-weight: 600;
-}
-
-.nextFruitImage {
-  width: 2em;
 }

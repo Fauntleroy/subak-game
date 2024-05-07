@@ -1,8 +1,9 @@
 import css from './app.module.css';
 
-import React, { useDebugValue, useRef } from 'react';
+import React, { useDebugValue, useEffect, useRef } from 'react';
 import { useStore } from 'zustand';
 import cx from 'classnames';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { Game } from './game';
 import { CircleOfEvolution } from './circle-of-evolution';
@@ -28,18 +29,29 @@ export function App() {
 
   return (
     <div className={css.app}>
+      <div className={cx(css.nextFruit, css.hudSection)}>
+        <h6 className={css.label}>Next</h6>
+        <div className={css.nextFruitSlot}>
+          <AnimatePresence>
+            {upcomingFruit && (
+              <motion.img
+                initial={{ opacity: 0, scale: 0, x: '-150%' }}
+                animate={{ opacity: 1, scale: 1, x: '0%' }}
+                exit={{ opacity: 0, scale: 0, x: '150%' }}
+                className={css.nextFruitImage}
+                src={upcomingFruitImageSrc}
+                key={upcomingFruit.uuid}
+              />
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
       <div className={cx(css.score, css.hudSection)}>
         <h6 className={css.label}>Score</h6>
         <div>
           <var className={css.scoreNumber}>{score}</var>
         </div>
-      </div>
-
-      <div className={cx(css.nextFruit, css.hudSection)}>
-        <h6 className={css.label}>Next</h6>
-        {upcomingFruit && (
-          <img className={css.nextFruitImage} src={upcomingFruitImageSrc} />
-        )}
       </div>
 
       <div className={cx(css.circleOfEvolution, css.hudSection)}>
