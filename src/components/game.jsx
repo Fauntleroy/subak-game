@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 
 import { Main } from '../game/scenes/main';
 
-const GAME_WIDTH = 600;
+const GAME_WIDTH = 300;
 const GAME_HEIGHT = GAME_WIDTH * 1.5;
 const DPR = window.devicePixelRatio;
 // const DPR = 1;

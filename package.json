@@ -12,6 +12,7 @@
     "vite": "^5.0.8"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
     "leva": "^0.9.35",
     "lodash-es": "^4.17.21",
     "phaser": "^3.70.0",

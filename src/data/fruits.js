@@ -1,14 +1,14 @@
 export const fruitNames = [
-  'blueberries',
-  'strawberry',
-  'grapes',
-  'tangerine',
-  'mango',
+  'blueberry',
+  'grape',
+  'lemon',
+  'orange',
   'apple',
+  'dragonfruit',
   'pear',
   'peach',
   'pineapple',
-  'melon',
+  'honeydew',
   'watermelon'
 ];
 

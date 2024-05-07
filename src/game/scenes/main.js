@@ -140,11 +140,11 @@ export class Main extends Phaser.Scene {
         this.input.activePointer.x,
         this.input.activePointer.y,
         1000,
-        0x99ffff,
+        0xffffff,
         0.75
       )
       .setScrollFactor(0);
-    this.lights.enable().setAmbientColor(0xdddddd);
+    this.lights.enable().setAmbientColor(0xffffff);
 
     // Game ceiling & out of bounds
     const ceilingHeight = this.gh(100 / 6);
@@ -157,29 +157,29 @@ export class Main extends Phaser.Scene {
     );
 
     const line = this.add
-      .rectangle(0, ceilingHeight, this.gw(100), 2, 0xccccff)
+      .rectangle(0, ceilingHeight, this.gw(100), 2, 0x000000)
       .setOrigin(0)
-      .setAlpha(0.1)
+      .setAlpha(0.125)
       .setDepth(-2);
-    line.postFX.addShine();
-    line.postFX.addGlow();
+    // line.postFX.addShine();
+    // line.postFX.addGlow();
 
     // create dropper
     const dropperHeight = ceilingHeight - this.gh(2);
     this.dropper = this.add
       .image(this.input.activePointer.x, 0, fruits[0].name)
       .setY(dropperHeight);
-    const glow = this.dropper.postFX.addGlow(0x99ddff);
-    this.tweens.addCounter({
-      yoyo: true,
-      repeat: -1,
-      from: 1,
-      to: 3,
-      duration: 1000,
-      onUpdate: function (tween) {
-        glow.outerStrength = tween.getValue();
-      }
-    });
+    // const glow = this.dropper.postFX.addGlow(0x99ddff);
+    // this.tweens.addCounter({
+    //   yoyo: true,
+    //   repeat: -1,
+    //   from: 1,
+    //   to: 3,
+    //   duration: 1000,
+    //   onUpdate: function (tween) {
+    //     glow.outerStrength = tween.getValue();
+    //   }
+    // });
 
     this.dropHand = this.add
       .image(0, this.gh(12), 'hand')
@@ -200,10 +200,10 @@ export class Main extends Phaser.Scene {
         (this.gh(100) - ceilingHeight) / 2 + ceilingHeight,
         this.gw(100),
         this.gh(100) - ceilingHeight,
-        0xffffff
+        0x00000000
       )
       .setDepth(-3)
-      .setAlpha(0.125);
+      .setAlpha(0);
 
     // Game events
     this.input.on('pointermove', (pointer) => {
