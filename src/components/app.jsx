@@ -50,9 +50,7 @@ export function App() {
 
       <div className={cx(css.score, css.hudSection)}>
         <h6 className={css.label}>Score</h6>
-        <div>
-          <var className={css.scoreNumber}>{score}</var>
-        </div>
+        <var className={css.scoreNumber}>{score}</var>
       </div>
 
       <div className={cx(css.circleOfEvolution, css.hudSection)}>

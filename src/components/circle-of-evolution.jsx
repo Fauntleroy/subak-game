@@ -8,21 +8,22 @@ import { fruits } from '../data/fruits';
 export function CircleOfEvolution() {
   const fruitGroups = chunk(fruits, Math.ceil(fruits.length / 2));
 
-  const fruitGroupsJsx = fruitGroups.map((fruits) => {
+  const fruitGroupsJsx = fruitGroups.map((fruits, fruitGroupIndex) => {
     const fruitsJsx = fruits.map((fruit, i) => {
       const offsetDistance = (i / fruits.length) * -92;
 
       return (
-        <div
-          className={css.fruit}
-          key={fruit.name}
-          style={{ offsetDistance: `${offsetDistance}%` }}>
+        <div className={css.fruit} key={fruit.name}>
           <img src={`./${fruit.name}.png`} />
         </div>
       );
     });
 
-    return <div className={css.fruitGroup}>{fruitsJsx}</div>;
+    return (
+      <div className={css.fruitGroup} key={`fruit-group-${fruitGroupIndex}`}>
+        {fruitsJsx}
+      </div>
+    );
   });
 
   return (
