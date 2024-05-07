@@ -8,7 +8,7 @@ import { fruits } from '../../data/fruits';
 const EVENTS = {
   CEILING_HIT: 'CEILING_HIT'
 };
-const FRUIT_FRICTION = 0.015;
+const FRUIT_FRICTION = 0.5;
 const FRUIT_BOUNCE = 0.2;
 
 export class Main extends Phaser.Scene {
@@ -31,7 +31,7 @@ export class Main extends Phaser.Scene {
       this.load.image(`${fruit.name}`, `${fruit.name}.png`);
     }
 
-    this.load.image('hand', 'hand.png');
+    this.load.image('fruit-pointer', 'fruit-pointer.png');
   }
 
   updateDropper(fruit) {
@@ -63,7 +63,7 @@ export class Main extends Phaser.Scene {
     );
     this.dropper.setX(clampedX);
     this.dropLine.setX(clampedX);
-    this.dropHand.setX(this.dropHand.displayWidth + clampedX - this.gw(2));
+    this.dropPointer.setX(clampedX);
   }
 
   addFruit(x, y, fruit) {
@@ -163,17 +163,17 @@ export class Main extends Phaser.Scene {
       .setDepth(-2);
 
     // create dropper
-    const dropperHeight = ceilingHeight / 2 + this.gh(1.5);
+    const dropperHeight = ceilingHeight / 2;
     this.dropper = this.add
       .image(this.input.activePointer.x, 0, fruits[0].name)
       .setY(dropperHeight);
 
-    this.dropHand = this.add
-      .image(0, ceilingHeight / 2 - this.gh(1.5), 'hand')
+    this.dropPointer = this.add
+      .image(0, 0, 'fruit-pointer')
       .setDisplaySize(this.gw(9), this.gw(6));
 
     this.dropLine = this.add
-      .rectangle(0, dropperHeight, 2, this.gh(100) - dropperHeight, 0x000000)
+      .rectangle(0, this.gh(1), 2, this.gh(100), 0x000000)
       .setOrigin(0)
       .setAlpha(0.1)
       .setDepth(-2);
