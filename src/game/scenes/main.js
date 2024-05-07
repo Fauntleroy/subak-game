@@ -63,7 +63,7 @@ export class Main extends Phaser.Scene {
     );
     this.dropper.setX(clampedX);
     this.dropLine.setX(clampedX);
-    this.dropHand.setX(this.dropHand.displayWidth * 0.5 + clampedX);
+    this.dropHand.setX(this.dropHand.displayWidth + clampedX - this.gw(2));
   }
 
   addFruit(x, y, fruit) {
@@ -161,28 +161,15 @@ export class Main extends Phaser.Scene {
       .setOrigin(0)
       .setAlpha(0.125)
       .setDepth(-2);
-    // line.postFX.addShine();
-    // line.postFX.addGlow();
 
     // create dropper
-    const dropperHeight = ceilingHeight - this.gh(2);
+    const dropperHeight = ceilingHeight / 2 + this.gh(1.5);
     this.dropper = this.add
       .image(this.input.activePointer.x, 0, fruits[0].name)
       .setY(dropperHeight);
-    // const glow = this.dropper.postFX.addGlow(0x99ddff);
-    // this.tweens.addCounter({
-    //   yoyo: true,
-    //   repeat: -1,
-    //   from: 1,
-    //   to: 3,
-    //   duration: 1000,
-    //   onUpdate: function (tween) {
-    //     glow.outerStrength = tween.getValue();
-    //   }
-    // });
 
     this.dropHand = this.add
-      .image(0, this.gh(12), 'hand')
+      .image(0, ceilingHeight / 2 - this.gh(1.5), 'hand')
       .setDisplaySize(this.gw(9), this.gw(6));
 
     this.dropLine = this.add
@@ -193,17 +180,6 @@ export class Main extends Phaser.Scene {
 
     this.updateDropper(fruits[0]);
     this.setUpcomingFruit(fruits[Math.floor(Math.random() * 5)]);
-
-    this.add
-      .rectangle(
-        this.gw(50),
-        (this.gh(100) - ceilingHeight) / 2 + ceilingHeight,
-        this.gw(100),
-        this.gh(100) - ceilingHeight,
-        0x00000000
-      )
-      .setDepth(-3)
-      .setAlpha(0);
 
     // Game events
     this.input.on('pointermove', (pointer) => {
