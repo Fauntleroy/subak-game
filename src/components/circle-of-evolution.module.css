@@ -1,17 +1,38 @@
 .fruits {
-  aspect-ratio: 1/1;
   position: relative;
-  padding: 0;
-  list-style-type: none;
-  margin: 0;
+  padding: 10px 0;
+}
+
+.fruitLoop {
+  position: absolute;
+  border: rgba(0, 0, 0, 0.25) 1px solid;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  left: 10px;
+  border-radius: 25px;
+}
+
+.fruitGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+
+  &:nth-child(even) {
+    flex-direction: column-reverse;
+  }
+}
+
+.fruitGroups {
+  position: relative;
+  display: flex;
+  gap: 15px;
 }
 
 .fruit {
-  padding: 0;
-  offset-path: circle(35% at 50% 50%);
-  offset-rotate: 0deg;
-  position: absolute;
-  width: 15%;
+  width: 20px;
+  height: 20px;
   aspect-ratio: 1/1;
 }
 

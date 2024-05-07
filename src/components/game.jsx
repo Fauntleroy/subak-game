@@ -24,7 +24,7 @@ export function Game({ gameRef }) {
           positionIterations: 8,
           velocityIterations: 6,
           constraintIterations: 4,
-          gravity: { x: 0, y: window.devicePixelRatio }
+          gravity: { x: 0, y: window.devicePixelRatio * 0.75 }
         }
       },
       parent: gameElementRef.current,

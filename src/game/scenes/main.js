@@ -8,7 +8,7 @@ import { fruits } from '../../data/fruits';
 const EVENTS = {
   CEILING_HIT: 'CEILING_HIT'
 };
-const FRUIT_FRICTION = 0.0075;
+const FRUIT_FRICTION = 0.015;
 const FRUIT_BOUNCE = 0.2;
 
 export class Main extends Phaser.Scene {
@@ -186,7 +186,7 @@ export class Main extends Phaser.Scene {
       .setDisplaySize(this.gw(9), this.gw(6));
 
     this.dropLine = this.add
-      .rectangle(0, dropperHeight, 2, this.gh(100) - dropperHeight, 0xccccff)
+      .rectangle(0, dropperHeight, 2, this.gh(100) - dropperHeight, 0x000000)
       .setOrigin(0)
       .setAlpha(0.1)
       .setDepth(-2);
