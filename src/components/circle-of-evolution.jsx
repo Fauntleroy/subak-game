@@ -10,8 +10,6 @@ export function CircleOfEvolution() {
 
   const fruitGroupsJsx = fruitGroups.map((fruits, fruitGroupIndex) => {
     const fruitsJsx = fruits.map((fruit, i) => {
-      const offsetDistance = (i / fruits.length) * -92;
-
       return (
         <div className={css.fruit} key={fruit.name}>
           <img src={`./${fruit.name}.png`} />
