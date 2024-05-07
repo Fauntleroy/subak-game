@@ -40,7 +40,7 @@ export class Main extends Phaser.Scene {
       .setTexture(fruit.name)
       .setName(fruit.name)
       .setDisplaySize(fruitDiameter, fruitDiameter);
-    this.setDropperX(this.input.activePointer.x);
+    this.setDropperX(this.input.activePointer.x || this.gw(50));
 
     this.group.getChildren().forEach((gameObject) => {
       if (gameObject instanceof Phaser.GameObjects.Image) {
@@ -169,8 +169,8 @@ export class Main extends Phaser.Scene {
       .setY(dropperHeight);
 
     this.dropPointer = this.add
-      .image(0, 0, 'fruit-pointer')
-      .setDisplaySize(this.gw(9), this.gw(6));
+      .image(0, this.gw(1.5), 'fruit-pointer')
+      .setDisplaySize(this.gw(4), this.gw(3));
 
     this.dropLine = this.add
       .rectangle(0, this.gh(1), 2, this.gh(100), 0x000000)

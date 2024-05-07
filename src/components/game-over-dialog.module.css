@@ -1,0 +1,23 @@
+.gameOverDialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  padding: 1em;
+  background: #fff;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.heading {
+  margin: 0;
+}
+
+.restart {
+  padding: 0.5em 1em;
+}

@@ -1,3 +1,5 @@
+import css from './game-over-dialog.module.css';
+
 import React from 'react';
 import { useStore } from 'zustand';
 
@@ -13,9 +15,11 @@ export function GameOverDialog({ gameRef }) {
   }
 
   return (
-    <dialog open={true}>
-      <h3>Game Over</h3>
-      <button onClick={handleRestartButtonClick}>Start New Game</button>
+    <dialog className={css.gameOverDialog} open={true}>
+      <h3 className={css.heading}>Game Over</h3>
+      <button className={css.restart} onClick={handleRestartButtonClick}>
+        Start New Game
+      </button>
     </dialog>
   );
 }

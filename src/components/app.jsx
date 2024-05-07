@@ -1,6 +1,6 @@
 import css from './app.module.css';
 
-import React, { useDebugValue, useEffect, useRef } from 'react';
+import React, { useDebugValue, useEffect, useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import cx from 'classnames';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -26,6 +26,14 @@ export function App() {
   const upcomingFruitImageSrc = `./${upcomingFruit?.name}.png`;
   const isGameOver = useBoundStore((state) => state.isGameOver);
   const debugData = useBoundDebugStore((state) => state);
+  const [isDropping, setIsDropping] = useState(false);
+
+  function handleGameMouseUp() {
+    setIsDropping(true);
+    setTimeout(() => {
+      setIsDropping(false);
+    }, 250);
+  }
 
   return (
     <div className={css.app}>
@@ -58,7 +66,9 @@ export function App() {
         <CircleOfEvolution />
       </div>
 
-      <div className={css.game}>
+      <div
+        className={cx(css.game, { [css.isDropping]: isDropping })}
+        onMouseUp={handleGameMouseUp}>
         <Game gameRef={gameRef} debugConfig={debugData} />
       </div>
 
