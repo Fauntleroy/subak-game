@@ -8,6 +8,10 @@
   font-variant-numeric: tabular-nums;
   font-size: 1.25em;
   line-height: 0.8;
+
+  @media screen and (max-width: 420px) {
+    font-size: 1em;
+  }
 }
 
 .character {
