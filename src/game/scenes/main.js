@@ -141,15 +141,6 @@ export class Main extends Phaser.Scene {
     this.matter.world.setBounds(0, 0, this.gw(100), this.gh(100));
     this.group = this.add.group();
 
-    const light = this.lights
-      .addLight(
-        this.input.activePointer.x,
-        this.input.activePointer.y,
-        1000,
-        0xffffff,
-        0.75
-      )
-      .setScrollFactor(0);
     this.lights.enable().setAmbientColor(0xffffff);
 
     // Game ceiling & out of bounds
@@ -193,10 +184,8 @@ export class Main extends Phaser.Scene {
     this.updateDropper(fruits[0]);
     this.setUpcomingFruit(fruits[Math.floor(Math.random() * 5)]);
 
-    // Game events
     this.input.on('pointermove', (pointer) => {
       this.setDropperX(pointer.x);
-      light.setPosition(pointer.x, pointer.y);
     });
 
     this.input.on('pointerup', () => {

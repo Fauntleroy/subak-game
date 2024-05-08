@@ -27,8 +27,8 @@ export function Game({ gameRef }) {
   useEffect(() => {
     const game = new Phaser.Game({
       scene: [Main],
-      width: GAME_WIDTH,
-      height: GAME_HEIGHT,
+      width: GAME_WIDTH, // 300
+      height: GAME_HEIGHT, // 450
       transparent: true,
       render: {
         mipmapFilter: 'LINEAR_MIPMAP_LINEAR',
@@ -54,6 +54,7 @@ export function Game({ gameRef }) {
         // expandParent: false,
         // mode: Phaser.Scale.ScaleModes.WIDTH_CONTROLS_HEIGHT
       }
+      // input: { mouse: { target: window } }
     });
 
     gameRef.current = game;
