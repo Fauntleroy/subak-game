@@ -20,11 +20,11 @@ export function StartDialog() {
   return (
     <Dialog open={true}>
       <header>
-        Subak Game <img className={css.subakIcon} src="/watermelon.png" />
+        Subak Game <img className={css.subakIcon} src="./watermelon.png" />
       </header>
       <section>
         Match fruits to merge them into a bigger fruit. Try to get to a{' '}
-        <img className={css.subakIcon} src="/watermelon.png" />.
+        <img className={css.subakIcon} src="./watermelon.png" />.
       </section>
       <footer>
         <button type="button" onClick={handleStartClick}>
