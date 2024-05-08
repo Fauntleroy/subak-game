@@ -13,6 +13,7 @@ import { Debug } from './debug';
 
 import debugStore from '../debug-store';
 import store from '../store';
+import { StartDialog } from './start-dialog';
 
 const useBoundStore = (selector) => useStore(store, selector);
 const useBoundDebugStore = (selector) => useStore(debugStore, selector);
@@ -26,11 +27,13 @@ export function App() {
   const upcomingFruit = useBoundStore((state) => state.upcomingFruit);
   const upcomingFruitImageSrc = `./${upcomingFruit?.name}.png`;
   const isGameOver = useBoundStore((state) => state.isGameOver);
+  const isGameStarted = useBoundStore((state) => state.isStarted);
   const debugData = useBoundDebugStore((state) => state);
   const [isDropping, setIsDropping] = useState(false);
 
   const className = cx(css.app, {
-    [css.isGameOver]: isGameOver
+    [css.isGameOver]: isGameOver,
+    [css.isNotStarted]: !isGameStarted
   });
 
   function handleGameMouseUp() {
@@ -79,6 +82,7 @@ export function App() {
         </div>
 
         {isGameOver && <GameOverDialog gameRef={gameRef} />}
+        {!isGameStarted && <StartDialog />}
       </div>
       {isDebugEnabled && <Debug />}
     </>

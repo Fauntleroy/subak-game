@@ -94,7 +94,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-.isGameOver {
+.isGameOver,
+.isNotStarted {
   .hudSection,
   .game {
     filter: grayscale(100%) contrast(0%) opacity(1);

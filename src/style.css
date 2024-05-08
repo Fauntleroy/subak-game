@@ -9,6 +9,7 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  font-size: 14px;
 
   color-scheme: light dark;
   color: #333;
@@ -42,4 +43,14 @@ body {
   color: white;
   padding: 0.5em;
   border-radius: 0 0.5em 0 0;
+}
+
+button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  cursor: pointer;
+  font-weight: 500;
 }

@@ -1,4 +1,4 @@
-.gameOverDialog {
+.dialog {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -8,16 +8,14 @@
   color: #333;
   border: none;
   border-radius: 10px;
+  min-width: 200px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1em;
-}
 
-.heading {
-  margin: 0;
-}
-
-.restart {
-  padding: 0.5em 1em;
+  header {
+    font-weight: 500;
+  }
 }
