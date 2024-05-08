@@ -41,44 +41,46 @@ export function App() {
   }
 
   return (
-    <div className={className}>
-      <div className={cx(css.nextFruit, css.hudSection)}>
-        <h6 className={css.label}>Next</h6>
-        <div className={css.nextFruitSlot}>
-          <AnimatePresence>
-            {upcomingFruit && (
-              <motion.img
-                initial={{ opacity: 0, scale: 0, x: '-150%' }}
-                animate={{ opacity: 1, scale: 1, x: '0%' }}
-                exit={{ opacity: 0, scale: 0, x: '150%' }}
-                transition={{ delay: 0.25 }}
-                className={css.nextFruitImage}
-                src={upcomingFruitImageSrc}
-                key={upcomingFruit.uuid}
-              />
-            )}
-          </AnimatePresence>
+    <>
+      <div className={className}>
+        <div className={cx(css.nextFruit, css.hudSection)}>
+          <h6 className={css.label}>Next</h6>
+          <div className={css.nextFruitSlot}>
+            <AnimatePresence>
+              {upcomingFruit && (
+                <motion.img
+                  initial={{ opacity: 0, scale: 0, x: '-150%' }}
+                  animate={{ opacity: 1, scale: 1, x: '0%' }}
+                  exit={{ opacity: 0, scale: 0, x: '150%' }}
+                  transition={{ delay: 0.25 }}
+                  className={css.nextFruitImage}
+                  src={upcomingFruitImageSrc}
+                  key={upcomingFruit.uuid}
+                />
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
 
-      <div className={cx(css.score, css.hudSection)}>
-        <h6 className={css.label}>Score</h6>
-        <Score score={score} />
-      </div>
+        <div className={cx(css.score, css.hudSection)}>
+          <h6 className={css.label}>Score</h6>
+          <Score score={score} />
+        </div>
 
-      <div className={cx(css.circleOfEvolution, css.hudSection)}>
-        <h6 className={css.label}>Cycle</h6>
-        <CircleOfEvolution />
-      </div>
+        <div className={cx(css.circleOfEvolution, css.hudSection)}>
+          <h6 className={css.label}>Cycle</h6>
+          <CircleOfEvolution />
+        </div>
 
-      <div
-        className={cx(css.game, { [css.isDropping]: isDropping })}
-        onMouseUp={handleGameMouseUp}>
-        <Game gameRef={gameRef} debugConfig={debugData} />
-      </div>
+        <div
+          className={cx(css.game, { [css.isDropping]: isDropping })}
+          onMouseUp={handleGameMouseUp}>
+          <Game gameRef={gameRef} debugConfig={debugData} />
+        </div>
 
-      {isGameOver && <GameOverDialog gameRef={gameRef} />}
+        {isGameOver && <GameOverDialog gameRef={gameRef} />}
+      </div>
       {isDebugEnabled && <Debug />}
-    </div>
+    </>
   );
 }

@@ -204,10 +204,12 @@ export class Main extends Phaser.Scene {
         return;
       }
 
+      const upcomingFruit = this.state.upcomingFruit;
+
       this.dropper.setVisible(false);
       this.time.delayedCall(500, () => {
         this.dropper.setVisible(!this.state.isGameOver);
-        this.updateDropper(this.state.upcomingFruit);
+        this.updateDropper(upcomingFruit);
       });
 
       const currentFruit = fruits.find(
