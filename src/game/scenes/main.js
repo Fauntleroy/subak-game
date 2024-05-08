@@ -169,7 +169,8 @@ export class Main extends Phaser.Scene {
 
     this.dropPointer = this.add
       .image(0, this.gw(1.5), 'fruit-pointer')
-      .setDisplaySize(this.gw(4), this.gw(3));
+      .setAlpha(0.5)
+      .setDisplaySize(this.gw(5), this.gw(5));
 
     this.dropLine = this.add
       .rectangle(0, this.gh(1), 2, this.gh(100), 0x000000)
