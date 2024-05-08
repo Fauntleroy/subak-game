@@ -45,6 +45,7 @@
 
 .nextFruitImage {
   position: absolute;
+  z-index: 2;
   width: 100%;
 }
 
@@ -77,4 +78,15 @@
   font-weight: 600;
   line-height: 1;
   font-variant-numeric: tabular-nums;
+}
+
+.isGameOver {
+  .hudSection,
+  .game {
+    filter: grayscale(100%) contrast(0%) opacity(1);
+  }
+
+  .game {
+    pointer-events: none;
+  }
 }

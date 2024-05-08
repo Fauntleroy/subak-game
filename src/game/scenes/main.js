@@ -61,9 +61,7 @@ export class Main extends Phaser.Scene {
       radius + padding,
       this.game.config.width - radius - padding
     );
-    this.dropper.setX(clampedX);
-    this.dropLine.setX(clampedX);
-    this.dropPointer.setX(clampedX);
+    this.dropperGroup.setX(clampedX);
   }
 
   addFruit(x, y, fruit) {
@@ -163,6 +161,8 @@ export class Main extends Phaser.Scene {
       .setDepth(-2);
 
     // create dropper
+    this.dropperGroup = this.add.group();
+
     const dropperHeight = ceilingHeight / 2;
     this.dropper = this.add
       .image(this.input.activePointer.x, 0, fruits[0].name)
@@ -177,6 +177,10 @@ export class Main extends Phaser.Scene {
       .setOrigin(0)
       .setAlpha(0.1)
       .setDepth(-2);
+
+    this.dropperGroup.add(this.dropper);
+    this.dropperGroup.add(this.dropPointer);
+    this.dropperGroup.add(this.dropLine);
 
     this.updateDropper(fruits[0]);
     this.setUpcomingFruit(fruits[Math.floor(Math.random() * 5)]);

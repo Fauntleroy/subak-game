@@ -1,5 +1,11 @@
+import css from './game.module.css';
+
 import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
+import cx from 'classnames';
+import { useStore } from 'zustand';
+
+import store from '../store';
 
 import { Main } from '../game/scenes/main';
 
@@ -8,8 +14,15 @@ const GAME_HEIGHT = GAME_WIDTH * 1.5;
 const DPR = window.devicePixelRatio;
 // const DPR = 1;
 
+const useBoundStore = (selector) => useStore(store, selector);
+
 export function Game({ gameRef }) {
   const gameElementRef = useRef(null);
+  const isGameOver = useBoundStore((state) => state.isGameOver);
+
+  const className = cx(css.game, {
+    [css.isGameOver]: isGameOver
+  });
 
   useEffect(() => {
     const game = new Phaser.Game({
@@ -17,6 +30,11 @@ export function Game({ gameRef }) {
       width: GAME_WIDTH,
       height: GAME_HEIGHT,
       transparent: true,
+      render: {
+        mipmapFilter: 'LINEAR_MIPMAP_LINEAR',
+        antialias: true,
+        roundPixels: false
+      },
       physics: {
         default: 'matter',
         matter: {
@@ -45,5 +63,5 @@ export function Game({ gameRef }) {
     };
   }, []);
 
-  return <div ref={gameElementRef} />;
+  return <div className={className} ref={gameElementRef} />;
 }

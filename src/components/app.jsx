@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Game } from './game';
 import { CircleOfEvolution } from './circle-of-evolution';
 import { GameOverDialog } from './game-over-dialog';
+import { Score } from './score';
 import { Debug } from './debug';
 
 import debugStore from '../debug-store';
@@ -28,6 +29,10 @@ export function App() {
   const debugData = useBoundDebugStore((state) => state);
   const [isDropping, setIsDropping] = useState(false);
 
+  const className = cx(css.app, {
+    [css.isGameOver]: isGameOver
+  });
+
   function handleGameMouseUp() {
     setIsDropping(true);
     setTimeout(() => {
@@ -36,7 +41,7 @@ export function App() {
   }
 
   return (
-    <div className={css.app}>
+    <div className={className}>
       <div className={cx(css.nextFruit, css.hudSection)}>
         <h6 className={css.label}>Next</h6>
         <div className={css.nextFruitSlot}>
@@ -58,7 +63,7 @@ export function App() {
 
       <div className={cx(css.score, css.hudSection)}>
         <h6 className={css.label}>Score</h6>
-        <var className={css.scoreNumber}>{score}</var>
+        <Score score={score} />
       </div>
 
       <div className={cx(css.circleOfEvolution, css.hudSection)}>
