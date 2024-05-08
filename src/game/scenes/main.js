@@ -43,7 +43,7 @@ export class Main extends Phaser.Scene {
     this.setDropperX(this.input.activePointer.x || this.gw(50));
     this.tweens.add({
       targets: this.dropper,
-      scale: { from: 0, to: this.dropper.scale },
+      scale: { from: this.dropper.scale * 0.25, to: this.dropper.scale },
       alpha: { from: 0, to: 1 },
       ease: 'Elastic',
       easeParams: [0.01, 0.5],
