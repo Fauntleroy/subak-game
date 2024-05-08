@@ -41,6 +41,14 @@ export class Main extends Phaser.Scene {
       .setName(fruit.name)
       .setDisplaySize(fruitDiameter, fruitDiameter);
     this.setDropperX(this.input.activePointer.x || this.gw(50));
+    this.tweens.add({
+      targets: this.dropper,
+      scale: { from: 0, to: this.dropper.scale },
+      alpha: { from: 0, to: 1 },
+      ease: 'Elastic',
+      easeParams: [0.01, 0.5],
+      duration: 325
+    });
 
     this.group.getChildren().forEach((gameObject) => {
       if (gameObject instanceof Phaser.GameObjects.Image) {
@@ -197,9 +205,10 @@ export class Main extends Phaser.Scene {
       }
 
       this.dropper.setVisible(false);
-      this.time.delayedCall(500, () =>
-        this.dropper.setVisible(!this.state.isGameOver)
-      );
+      this.time.delayedCall(500, () => {
+        this.dropper.setVisible(!this.state.isGameOver);
+        this.updateDropper(this.state.upcomingFruit);
+      });
 
       const currentFruit = fruits.find(
         (fruit) => fruit.name === this.dropper.name
@@ -212,7 +221,6 @@ export class Main extends Phaser.Scene {
       );
       this.group.add(gameObject);
 
-      this.updateDropper(this.state.upcomingFruit);
       this.setUpcomingFruit(
         this.debugState.overrideFruit || fruits[Math.floor(Math.random() * 5)]
       );
