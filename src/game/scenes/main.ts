@@ -18,7 +18,7 @@ export class Main extends Phaser.Scene {
   dropperGroup: Phaser.GameObjects.Group;
   group: Phaser.GameObjects.Group;
   ceiling: MatterJS.BodyType;
-  fruitCollidingWithCeiling = new Map();
+  fruitCollidingWithCeiling: Map<number, number> = new Map();
   state: StoreState;
   debugState;
 
@@ -91,7 +91,10 @@ export class Main extends Phaser.Scene {
     if (newFruit.active) {
       newFruit.setOnCollideWith(
         this.ceiling,
-        (collidingBody, collisionData) => {
+        (
+          collidingBody,
+          collisionData: Phaser.Types.Physics.Matter.MatterCollisionData
+        ) => {
           const { bodyB } = collisionData;
           this.fruitCollidingWithCeiling.set(bodyB.id, this.time.now);
         }
@@ -312,7 +315,7 @@ export class Main extends Phaser.Scene {
   }
 
   update(time) {
-    this.fruitCollidingWithCeiling.forEach((collisionStartTime) => {
+    this.fruitCollidingWithCeiling.forEach((collisionStartTime: number) => {
       if (time - collisionStartTime >= 500) {
         this.events.emit(EVENTS.CEILING_HIT);
       }
