@@ -143,13 +143,7 @@ export class Main extends Phaser.Scene {
     this.setDropperX(pointer.x);
   };
 
-  handlePointerUp = (event) => {
-    // TODO: I do not want to do this
-    // setting the event target should handle this!
-    if (!this.game.config.inputMouseEventTarget.contains(event.upElement)) {
-      return;
-    }
-
+  handlePointerUp = () => {
     if (
       this.state.isGameOver ||
       !this.state.isStarted ||

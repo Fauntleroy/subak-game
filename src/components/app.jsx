@@ -18,7 +18,7 @@ import { StartDialog } from './start-dialog';
 const useBoundStore = (selector) => useStore(store, selector);
 const useBoundDebugStore = (selector) => useStore(debugStore, selector);
 
-export function App({ eventTarget }) {
+export function App() {
   const urlQuery = new URLSearchParams(window.location.search);
   const isDebugEnabled =
     !!urlQuery.get('debug') && urlQuery.get('debug') !== 'false';
@@ -78,11 +78,7 @@ export function App({ eventTarget }) {
         <div
           className={cx(css.game, { [css.isDropping]: isDropping })}
           onMouseUp={handleGameMouseUp}>
-          <Game
-            gameRef={gameRef}
-            debugConfig={debugData}
-            eventTarget={eventTarget}
-          />
+          <Game gameRef={gameRef} debugConfig={debugData} />
         </div>
 
         {isGameOver && <GameOverDialog gameRef={gameRef} />}

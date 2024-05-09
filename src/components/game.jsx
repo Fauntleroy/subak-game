@@ -16,7 +16,7 @@ const DPR = window.devicePixelRatio;
 
 const useBoundStore = (selector) => useStore(store, selector);
 
-export function Game({ gameRef, eventTarget }) {
+export function Game({ gameRef }) {
   const gameElementRef = useRef(null);
   const isGameOver = useBoundStore((state) => state.isGameOver);
 
@@ -55,8 +55,8 @@ export function Game({ gameRef, eventTarget }) {
         // mode: Phaser.Scale.ScaleModes.WIDTH_CONTROLS_HEIGHT
       },
       input: {
-        mouse: { target: document.querySelector(eventTarget) },
-        touch: { target: document.querySelector(eventTarget) }
+        mouse: { target: window },
+        touch: { target: window }
       }
     });
 

@@ -8,4 +8,4 @@ import './style.css';
 const rootElement = document.querySelector('#root');
 
 const reactRoot = createRoot(rootElement);
-reactRoot.render(<App eventTarget="#game-container" />);
+reactRoot.render(<App />);
