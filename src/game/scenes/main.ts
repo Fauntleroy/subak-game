@@ -126,10 +126,6 @@ export class Main extends Phaser.Scene {
       (fruit) => fruit.name === fruitBodyA.gameObject?.name
     );
 
-    if (fruitIndex === -1) {
-      return;
-    }
-
     const fruitScore = (fruitIndex + 1) * 2;
     this.setScore(this.state.score + fruitScore);
 
