@@ -11,8 +11,7 @@ import { Main } from '../../game/scenes/main';
 
 const GAME_WIDTH = 300;
 const GAME_HEIGHT = GAME_WIDTH * 1.5;
-const DPR = window.devicePixelRatio;
-// const DPR = 1;
+const DPR = window.devicePixelRatio || 1;
 
 const useBoundStore = (selector) => useStore(store, selector);
 
