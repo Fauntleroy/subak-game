@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import { clamp } from 'lodash-es';
 
-import store from '../../store';
-import debugStore from '../../debug-store';
-import { fruits } from '../../data/fruits';
+import store, { StoreState } from '../../store';
+import debugStore, { DebugStoreState } from '../../debug-store';
+import { FruitType, fruits } from '../../data/fruits';
 
 const EVENTS = {
   CEILING_HIT: 'CEILING_HIT'
@@ -12,18 +12,22 @@ const FRUIT_FRICTION = 0.5;
 const FRUIT_BOUNCE = 0.2;
 
 export class Main extends Phaser.Scene {
-  dropper;
-  dropLine;
-  group;
-  ceiling;
+  dropper: Phaser.GameObjects.Image;
+  dropPointer: Phaser.GameObjects.Image;
+  dropLine: Phaser.GameObjects.Rectangle;
+  dropperGroup: Phaser.GameObjects.Group;
+  group: Phaser.GameObjects.Group;
+  ceiling: MatterJS.BodyType;
   fruitCollidingWithCeiling = new Map();
+  state: StoreState;
+  debugState;
 
   // Sizing utils
   gh = (percent) => {
-    return this.game.config.height * (percent / 100);
+    return Number(this.game.config.height) * (percent / 100);
   };
   gw = (percent) => {
-    return this.game.config.width * (percent / 100);
+    return Number(this.game.config.width) * (percent / 100);
   };
 
   preload() {
@@ -67,12 +71,12 @@ export class Main extends Phaser.Scene {
     const clampedX = clamp(
       x,
       radius + padding,
-      this.game.config.width - radius - padding
+      Number(this.game.config.width) - radius - padding
     );
     this.dropperGroup.setX(clampedX);
   }
 
-  addFruit(x, y, fruit) {
+  addFruit(x: number, y: number, fruit: FruitType) {
     const fruitRadiusGw = this.gw(fruit.radius);
     const newFruit = this.matter.add
       .image(x, y, fruit.name)
@@ -111,11 +115,11 @@ export class Main extends Phaser.Scene {
     return newFruit;
   }
 
-  setUpcomingFruit(fruit) {
+  setUpcomingFruit(fruit: FruitType) {
     this.state.setUpcomingFruit(fruit);
   }
 
-  setScore(score) {
+  setScore(score: number) {
     this.state.setScore(score);
   }
 
@@ -127,11 +131,11 @@ export class Main extends Phaser.Scene {
     this.debugState = debugStore.getState();
   };
 
-  handleStoreChange = (newState) => {
+  handleStoreChange = (newState: StoreState) => {
     this.state = newState;
   };
 
-  handleDebugStoreChange = (newState) => {
+  handleDebugStoreChange = (newState: DebugStoreState) => {
     this.debugState = newState;
   };
 
@@ -163,6 +167,11 @@ export class Main extends Phaser.Scene {
     const currentFruit = fruits.find(
       (fruit) => fruit.name === this.dropper.name
     );
+
+    if (!currentFruit) {
+      console.error(`No fruit found for value: "${this.dropper.name}"`);
+      return;
+    }
 
     const gameObject = this.addFruit(
       this.dropper.x,

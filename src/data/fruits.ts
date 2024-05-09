@@ -1,4 +1,4 @@
-export const fruitNames = [
+export const fruitNames: string[] = [
   'blueberry',
   'grape',
   'lemon',
@@ -12,8 +12,15 @@ export const fruitNames = [
   'watermelon'
 ];
 
+type FruitNameType = (typeof fruitNames)[number];
+
+export interface FruitType {
+  name: FruitNameType;
+  radius: number;
+}
+
 function generateFruits() {
-  const fruits = [];
+  const fruits: FruitType[] = [];
 
   // 7.5 gw
   let currentRadius = 3.75;

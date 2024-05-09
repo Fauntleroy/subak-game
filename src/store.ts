@@ -1,16 +1,16 @@
 import { createStore } from 'zustand/vanilla';
 
-export interface Fruit {
-  name: string;
-  radius: number;
+import { FruitType } from './data/fruits';
+
+export interface NextFruitType extends FruitType {
   uuid: string;
 }
 
-interface StoreState {
+export interface StoreState {
   isGameOver: boolean;
   setIsGameOver: (isGameOver: boolean) => void;
-  upcomingFruit: null | Fruit;
-  setUpcomingFruit: (upcomingFruit: Fruit) => void;
+  upcomingFruit: null | NextFruitType;
+  setUpcomingFruit: (upcomingFruit: FruitType) => void;
   score: number;
   setScore: (score: number) => void;
   isMenuOpen: boolean;
@@ -26,7 +26,7 @@ const store = createStore<StoreState>((set) => ({
   },
 
   upcomingFruit: null,
-  setUpcomingFruit(upcomingFruit: any) {
+  setUpcomingFruit(upcomingFruit) {
     set({ upcomingFruit: { ...upcomingFruit, uuid: crypto.randomUUID() } });
   },
 

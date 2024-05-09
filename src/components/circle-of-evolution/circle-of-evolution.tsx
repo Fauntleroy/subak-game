@@ -5,14 +5,14 @@ import { chunk } from 'lodash-es';
 
 import { fruits } from '../../data/fruits';
 
-import { Fruit } from '../../store';
+import { FruitType } from '../../data/fruits';
 
 export function CircleOfEvolution() {
   const fruitGroups = chunk(fruits, Math.ceil(fruits.length / 2));
 
   const fruitGroupsJsx = fruitGroups.map(
-    (fruits: Fruit[], fruitGroupIndex: number) => {
-      const fruitsJsx = fruits.map((fruit: Fruit) => {
+    (fruits: FruitType[], fruitGroupIndex: number) => {
+      const fruitsJsx = fruits.map((fruit: FruitType) => {
         return (
           <div className={css.fruit} key={fruit.name}>
             <img src={`./${fruit.name}.png`} />

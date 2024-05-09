@@ -7,19 +7,16 @@ import store from '../../store';
 import debugStore from '../../debug-store';
 import { fruits } from '../../data/fruits';
 
-const useBoundStore = (selector) => useStore(store, selector);
-const useBoundDebugStore = (selector) => useStore(debugStore, selector);
-
 export function Debug() {
-  const [upcomingFruit, setUpcomingFruit] = useBoundStore((state) => [
+  const [upcomingFruit, setUpcomingFruit] = useStore(store, (state) => [
     state.upcomingFruit,
     state.setUpcomingFruit
   ]);
-  const [overrideFruit, setOverrideFruit] = useBoundDebugStore((state) => [
+  const [overrideFruit, setOverrideFruit] = useStore(debugStore, (state) => [
     state.overrideFruit,
     state.setOverrideFruit
   ]);
-  const [disableMerging, setDisableMerging] = useBoundDebugStore((state) => [
+  const [disableMerging, setDisableMerging] = useStore(debugStore, (state) => [
     state.disableMerging,
     state.setDisableMerging
   ]);
