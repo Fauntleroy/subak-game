@@ -135,6 +135,101 @@ export class Main extends Phaser.Scene {
     this.debugState = newState;
   };
 
+  handlePointerMove = (pointer) => {
+    if (this.state.isGameOver || !this.state.isStarted) {
+      return;
+    }
+
+    this.setDropperX(pointer.x);
+  };
+
+  handlePointerUp = () => {
+    if (this.state.isGameOver || !this.state.isStarted) {
+      return;
+    }
+
+    const upcomingFruit = this.state.upcomingFruit;
+
+    this.dropper.setVisible(false);
+    this.time.delayedCall(500, () => {
+      this.dropper.setVisible(!this.state.isGameOver);
+      this.updateDropper(upcomingFruit);
+    });
+
+    const currentFruit = fruits.find(
+      (fruit) => fruit.name === this.dropper.name
+    );
+
+    const gameObject = this.addFruit(
+      this.dropper.x,
+      this.dropper.y,
+      currentFruit
+    );
+    this.group.add(gameObject);
+
+    this.setUpcomingFruit(
+      this.debugState.overrideFruit || fruits[Math.floor(Math.random() * 5)]
+    );
+  };
+
+  handleCollisionStart = (event) => {
+    if (this.debugState.disableMerging) {
+      return;
+    }
+
+    for (const pair of event.pairs) {
+      if (pair.bodyA.gameObject?.name === pair.bodyB.gameObject?.name) {
+        const fruitIndex = fruits.findIndex(
+          (fruit) => fruit.name === pair.bodyA.gameObject?.name
+        );
+
+        if (fruitIndex === -1) {
+          continue;
+        }
+
+        const fruitScore = (fruitIndex + 1) * 2;
+        this.setScore(this.state.score + fruitScore);
+
+        pair.bodyA.gameObject.destroy();
+        pair.bodyB.gameObject.destroy();
+
+        const newFruit = fruits[fruitIndex + 1];
+
+        if (!newFruit) {
+          continue;
+        }
+
+        const averagedPositionX =
+          (pair.bodyA.position.x + pair.bodyB.position.x) / 2;
+        const averagedPositionY =
+          (pair.bodyA.position.y + pair.bodyB.position.y) / 2;
+
+        const gameObject = this.addFruit(
+          averagedPositionX,
+          averagedPositionY,
+          newFruit
+        );
+        this.group.add(gameObject);
+
+        return;
+      }
+    }
+  };
+
+  handleCeilingHit = () => {
+    this.state.setIsGameOver(true);
+    this.dropper.setVisible(false);
+    this.fruitCollidingWithCeiling.clear();
+    this.matter.world.pause();
+  };
+
+  handleReset = () => {
+    this.setScore(0);
+    this.state.setIsGameOver(false);
+    this.matter.world.resume();
+    this.scene.restart();
+  };
+
   create() {
     this.subscribeToStores();
 
@@ -185,96 +280,15 @@ export class Main extends Phaser.Scene {
     this.updateDropper(fruits[0]);
     this.setUpcomingFruit(fruits[Math.floor(Math.random() * 5)]);
 
-    this.input.on('pointermove', (pointer) => {
-      this.setDropperX(pointer.x);
-    });
+    this.input.on('pointermove', this.handlePointerMove);
+    this.input.on('pointerup', this.handlePointerUp);
+    this.input.on('pointerupoutside', this.handlePointerUp);
 
-    this.input.on('pointerup', () => {
-      if (!this.dropper.visible || this.state.isGameOver) {
-        return;
-      }
+    this.matter.world.on('collisionstart', this.handleCollisionStart);
 
-      const upcomingFruit = this.state.upcomingFruit;
+    this.events.on(EVENTS.CEILING_HIT, this.handleCeilingHit);
 
-      this.dropper.setVisible(false);
-      this.time.delayedCall(500, () => {
-        this.dropper.setVisible(!this.state.isGameOver);
-        this.updateDropper(upcomingFruit);
-      });
-
-      const currentFruit = fruits.find(
-        (fruit) => fruit.name === this.dropper.name
-      );
-
-      const gameObject = this.addFruit(
-        this.dropper.x,
-        this.dropper.y,
-        currentFruit
-      );
-      this.group.add(gameObject);
-
-      this.setUpcomingFruit(
-        this.debugState.overrideFruit || fruits[Math.floor(Math.random() * 5)]
-      );
-    });
-
-    this.matter.world.on('collisionstart', (event) => {
-      if (this.debugState.disableMerging) {
-        return;
-      }
-
-      for (const pair of event.pairs) {
-        if (pair.bodyA.gameObject?.name === pair.bodyB.gameObject?.name) {
-          const fruitIndex = fruits.findIndex(
-            (fruit) => fruit.name === pair.bodyA.gameObject?.name
-          );
-
-          if (fruitIndex === -1) {
-            continue;
-          }
-
-          const fruitScore = (fruitIndex + 1) * 2;
-          this.setScore(this.state.score + fruitScore);
-
-          pair.bodyA.gameObject.destroy();
-          pair.bodyB.gameObject.destroy();
-
-          const newFruit = fruits[fruitIndex + 1];
-
-          if (!newFruit) {
-            continue;
-          }
-
-          const averagedPositionX =
-            (pair.bodyA.position.x + pair.bodyB.position.x) / 2;
-          const averagedPositionY =
-            (pair.bodyA.position.y + pair.bodyB.position.y) / 2;
-
-          const gameObject = this.addFruit(
-            averagedPositionX,
-            averagedPositionY,
-            newFruit
-          );
-          this.group.add(gameObject);
-
-          return;
-        }
-      }
-    });
-
-    this.events.on(EVENTS.CEILING_HIT, () => {
-      this.state.setIsGameOver(true);
-      this.dropper.setVisible(false);
-      this.fruitCollidingWithCeiling.clear();
-      this.matter.world.pause();
-    });
-
-    this.game.events.on('reset', () => {
-      this.setScore(0);
-      this.state.setIsGameOver(false);
-      this.matter.world.resume();
-      this.scene.restart();
-    });
+    this.game.events.on('reset', this.handleReset);
   }
 
   update(time) {

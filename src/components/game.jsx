@@ -53,8 +53,8 @@ export function Game({ gameRef }) {
         // parent: gameElementRef.current,
         // expandParent: false,
         // mode: Phaser.Scale.ScaleModes.WIDTH_CONTROLS_HEIGHT
-      }
-      // input: { mouse: { target: window } }
+      },
+      input: { mouse: { target: window } }
     });
 
     gameRef.current = game;

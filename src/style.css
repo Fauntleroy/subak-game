@@ -37,10 +37,9 @@ body {
 
 #header {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
-  background: black;
-  color: white;
+  right: 0;
   padding: 0.5em;
   border-radius: 0 0.5em 0 0;
 }
@@ -53,4 +52,13 @@ button {
   border-radius: 0.5em;
   cursor: pointer;
   font-weight: 500;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+  color: inherit;
+  text-decoration-color: hsla(0, 0%, 0%, 0.5);
 }
