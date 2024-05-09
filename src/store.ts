@@ -1,6 +1,6 @@
 import { createStore } from 'zustand/vanilla';
 
-interface Fruit {
+export interface Fruit {
   name: string;
   radius: number;
   uuid: string;

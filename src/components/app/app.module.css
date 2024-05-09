@@ -46,18 +46,6 @@
   grid-area: next-fruit;
 }
 
-.nextFruitSlot {
-  width: 2em;
-  height: 2em;
-  position: relative;
-}
-
-.nextFruitImage {
-  position: absolute;
-  z-index: 2;
-  width: 100%;
-}
-
 .circleOfEvolution {
   grid-area: circle-of-evolution;
 }
