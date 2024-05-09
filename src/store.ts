@@ -1,29 +1,48 @@
 import { createStore } from 'zustand/vanilla';
 
-const store = createStore((set) => ({
+interface Fruit {
+  name: string;
+  radius: number;
+  uuid: string;
+}
+
+interface StoreState {
+  isGameOver: boolean;
+  setIsGameOver: (isGameOver: boolean) => void;
+  upcomingFruit: null | Fruit;
+  setUpcomingFruit: (upcomingFruit: Fruit) => void;
+  score: number;
+  setScore: (score: number) => void;
+  isMenuOpen: boolean;
+  setIsMenuOpen: (isMenuOpen: boolean) => void;
+  isStarted: boolean;
+  setIsStarted: (isStarted: boolean) => void;
+}
+
+const store = createStore<StoreState>((set) => ({
   isGameOver: false,
-  setIsGameOver(_isGameOver: boolean) {
-    set({ isGameOver: _isGameOver });
+  setIsGameOver(isGameOver: boolean) {
+    set({ isGameOver: isGameOver });
   },
 
   upcomingFruit: null,
-  setUpcomingFruit(_upcomingFruit: any) {
-    set({ upcomingFruit: { ..._upcomingFruit, uuid: crypto.randomUUID() } });
+  setUpcomingFruit(upcomingFruit: any) {
+    set({ upcomingFruit: { ...upcomingFruit, uuid: crypto.randomUUID() } });
   },
 
   score: 0,
-  setScore(_newScore: number) {
-    set({ score: _newScore });
+  setScore(score: number) {
+    set({ score });
   },
 
   isMenuOpen: true,
-  setIsMenuOpen(newMenuOpenStatus: boolean) {
-    set({ isMenuOpen: newMenuOpenStatus });
+  setIsMenuOpen(isMenuOpen: boolean) {
+    set({ isMenuOpen });
   },
 
   isStarted: false,
-  setIsStarted(newIsStarted: boolean = true) {
-    set({ isStarted: newIsStarted });
+  setIsStarted(isStarted: boolean = true) {
+    set({ isStarted });
   }
 }));
 

@@ -1,6 +1,6 @@
 import css from './app.module.css';
 
-import React, { useDebugValue, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import cx from 'classnames';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,24 +11,19 @@ import { GameOverDialog } from '../game-over-dialog/game-over-dialog';
 import { Score } from '../score/score';
 import { Debug } from '../debug/debug';
 
-import debugStore from '../../debug-store';
 import store from '../../store';
 import { StartDialog } from '../start-dialog/start-dialog';
-
-const useBoundStore = (selector) => useStore(store, selector);
-const useBoundDebugStore = (selector) => useStore(debugStore, selector);
 
 export function App() {
   const urlQuery = new URLSearchParams(window.location.search);
   const isDebugEnabled =
     !!urlQuery.get('debug') && urlQuery.get('debug') !== 'false';
   const gameRef = useRef(null);
-  const score = useBoundStore((state) => state.score);
-  const upcomingFruit = useBoundStore((state) => state.upcomingFruit);
+  const score = useStore(store, (state) => state.score);
+  const upcomingFruit = useStore(store, (state) => state.upcomingFruit);
   const upcomingFruitImageSrc = `./${upcomingFruit?.name}.png`;
-  const isGameOver = useBoundStore((state) => state.isGameOver);
-  const isGameStarted = useBoundStore((state) => state.isStarted);
-  const debugData = useBoundDebugStore((state) => state);
+  const isGameOver = useStore(store, (state) => state.isGameOver);
+  const isGameStarted = useStore(store, (state) => state.isStarted);
   const [isDropping, setIsDropping] = useState(false);
 
   const className = cx(css.app, {
@@ -78,7 +73,7 @@ export function App() {
         <div
           className={cx(css.game, { [css.isDropping]: isDropping })}
           onMouseUp={handleGameMouseUp}>
-          <Game gameRef={gameRef} debugConfig={debugData} />
+          <Game gameRef={gameRef} />
         </div>
 
         {isGameOver && <GameOverDialog gameRef={gameRef} />}
