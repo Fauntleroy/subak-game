@@ -5,15 +5,15 @@ import { useStore } from 'zustand';
 import cx from 'classnames';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { Game } from './game';
-import { CircleOfEvolution } from './circle-of-evolution';
-import { GameOverDialog } from './game-over-dialog';
-import { Score } from './score';
-import { Debug } from './debug';
+import { Game } from '../game/game';
+import { CircleOfEvolution } from '../circle-of-evolution/circle-of-evolution';
+import { GameOverDialog } from '../game-over-dialog/game-over-dialog';
+import { Score } from '../score/score';
+import { Debug } from '../debug/debug';
 
-import debugStore from '../debug-store';
-import store from '../store';
-import { StartDialog } from './start-dialog';
+import debugStore from '../../debug-store';
+import store from '../../store';
+import { StartDialog } from '../start-dialog/start-dialog';
 
 const useBoundStore = (selector) => useStore(store, selector);
 const useBoundDebugStore = (selector) => useStore(debugStore, selector);

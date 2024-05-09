@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dialog } from './dialog';
+import { Dialog } from '../dialog/dialog';
 
 export function GameOverDialog({ gameRef }) {
   function handleRestartButtonClick() {

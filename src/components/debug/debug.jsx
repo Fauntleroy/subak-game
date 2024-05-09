@@ -3,9 +3,9 @@ import css from './debug.module.css';
 import React from 'react';
 import { useStore } from 'zustand';
 
-import store from '../store';
-import debugStore from '../debug-store';
-import { fruits } from '../data/fruits';
+import store from '../../store';
+import debugStore from '../../debug-store';
+import { fruits } from '../../data/fruits';
 
 const useBoundStore = (selector) => useStore(store, selector);
 const useBoundDebugStore = (selector) => useStore(debugStore, selector);

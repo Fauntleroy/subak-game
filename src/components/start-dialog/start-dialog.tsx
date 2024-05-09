@@ -3,9 +3,9 @@ import css from './start-dialog.module.css';
 import React from 'react';
 import { useStore } from 'zustand';
 
-import store from '../store';
+import store from '../../store';
 
-import { Dialog } from './dialog';
+import { Dialog } from '../dialog/dialog';
 
 const useBoundStore = (selector) => useStore(store, selector);
 

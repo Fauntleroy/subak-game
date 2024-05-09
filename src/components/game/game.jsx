@@ -5,9 +5,9 @@ import Phaser from 'phaser';
 import cx from 'classnames';
 import { useStore } from 'zustand';
 
-import store from '../store';
+import store from '../../store';
 
-import { Main } from '../game/scenes/main';
+import { Main } from '../../game/scenes/main';
 
 const GAME_WIDTH = 300;
 const GAME_HEIGHT = GAME_WIDTH * 1.5;
