@@ -10,9 +10,9 @@ import { GameOverDialog } from '../game-over-dialog/game-over-dialog';
 import { Score } from '../score/score';
 import { Debug } from '../debug/debug';
 import { NextFruit } from '../next-fruit/next-fruit';
+import { StartDialog } from '../start-dialog/start-dialog';
 
 import store from '../../store';
-import { StartDialog } from '../start-dialog/start-dialog';
 
 export function App() {
   const urlQuery = new URLSearchParams(window.location.search);

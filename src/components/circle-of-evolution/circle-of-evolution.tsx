@@ -5,24 +5,28 @@ import { chunk } from 'lodash-es';
 
 import { fruits } from '../../data/fruits';
 
+import { Fruit } from '../../store';
+
 export function CircleOfEvolution() {
   const fruitGroups = chunk(fruits, Math.ceil(fruits.length / 2));
 
-  const fruitGroupsJsx = fruitGroups.map((fruits, fruitGroupIndex) => {
-    const fruitsJsx = fruits.map((fruit, i) => {
+  const fruitGroupsJsx = fruitGroups.map(
+    (fruits: Fruit[], fruitGroupIndex: number) => {
+      const fruitsJsx = fruits.map((fruit: Fruit) => {
+        return (
+          <div className={css.fruit} key={fruit.name}>
+            <img src={`./${fruit.name}.png`} />
+          </div>
+        );
+      });
+
       return (
-        <div className={css.fruit} key={fruit.name}>
-          <img src={`./${fruit.name}.png`} />
+        <div className={css.fruitGroup} key={`fruit-group-${fruitGroupIndex}`}>
+          {fruitsJsx}
         </div>
       );
-    });
-
-    return (
-      <div className={css.fruitGroup} key={`fruit-group-${fruitGroupIndex}`}>
-        {fruitsJsx}
-      </div>
-    );
-  });
+    }
+  );
 
   return (
     <div className={css.fruits}>

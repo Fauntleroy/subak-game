@@ -13,11 +13,9 @@ const GAME_WIDTH = 300;
 const GAME_HEIGHT = GAME_WIDTH * 1.5;
 const DPR = window.devicePixelRatio || 1;
 
-const useBoundStore = (selector) => useStore(store, selector);
-
 export function Game({ gameRef }) {
   const gameElementRef = useRef(null);
-  const isGameOver = useBoundStore((state) => state.isGameOver);
+  const isGameOver = useStore(store, (state) => state.isGameOver);
 
   const className = cx(css.game, {
     [css.isGameOver]: isGameOver
@@ -49,14 +47,11 @@ export function Game({ gameRef }) {
         width: GAME_WIDTH * DPR,
         height: GAME_HEIGHT * DPR,
         zoom: 1 / DPR
-        // parent: gameElementRef.current,
-        // expandParent: false,
-        // mode: Phaser.Scale.ScaleModes.WIDTH_CONTROLS_HEIGHT
-      },
-      input: {
-        mouse: { target: window },
-        touch: { target: window }
       }
+      // input: {
+      //   mouse: { target: window },
+      //   touch: { target: window }
+      // }
     });
 
     gameRef.current = game;

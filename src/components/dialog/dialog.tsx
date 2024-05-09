@@ -2,7 +2,12 @@ import css from './dialog.module.css';
 
 import React from 'react';
 
-export function Dialog({ children, open }: { children: any; open?: boolean }) {
+interface DialogProps {
+  children: any;
+  open?: boolean;
+}
+
+export function Dialog({ children, open }: DialogProps) {
   return (
     <dialog className={css.dialog} open={open}>
       {children}

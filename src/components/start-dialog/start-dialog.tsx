@@ -7,13 +7,10 @@ import store from '../../store';
 
 import { Dialog } from '../dialog/dialog';
 
-const useBoundStore = (selector) => useStore(store, selector);
-
 export function StartDialog() {
-  const setIsStarted = useBoundStore((state) => state.setIsStarted);
+  const setIsStarted = useStore(store, (state) => state.setIsStarted);
 
   function handleStartClick() {
-    console.log('clicking start');
     setIsStarted(true);
   }
 
