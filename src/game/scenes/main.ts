@@ -23,10 +23,10 @@ export class Main extends Phaser.Scene {
   debugState;
 
   // Sizing utils
-  gh = (percent) => {
+  gh = (percent: number) => {
     return Number(this.game.config.height) * (percent / 100);
   };
-  gw = (percent) => {
+  gw = (percent: number) => {
     return Number(this.game.config.width) * (percent / 100);
   };
 
@@ -38,7 +38,7 @@ export class Main extends Phaser.Scene {
     this.load.image('fruit-pointer', 'fruit-pointer.png');
   }
 
-  updateDropper(fruit) {
+  updateDropper(fruit: FruitType) {
     const fruitDiameter = this.gw(fruit.radius * 2);
     this.dropper
       .setTexture(fruit.name)
@@ -65,7 +65,7 @@ export class Main extends Phaser.Scene {
     });
   }
 
-  setDropperX(x) {
+  setDropperX(x: number) {
     const padding = 0;
     const radius = this.dropper.displayWidth / 2;
     const clampedX = clamp(
@@ -97,19 +97,21 @@ export class Main extends Phaser.Scene {
         }
       );
 
-      newFruit.setOnCollideEnd((collision) => {
-        if (
-          collision.bodyA.id === this.ceiling.id ||
-          collision.bodyB.id === this.ceiling.id
-        ) {
-          const collisionFruit =
-            collision.bodyA.id === this.ceiling.id
-              ? collision.bodyB
-              : collision.bodyA;
+      newFruit.setOnCollideEnd(
+        (collision: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+          if (
+            collision.bodyA.id === this.ceiling.id ||
+            collision.bodyB.id === this.ceiling.id
+          ) {
+            const collisionFruit =
+              collision.bodyA.id === this.ceiling.id
+                ? collision.bodyB
+                : collision.bodyA;
 
-          this.fruitCollidingWithCeiling.delete(collisionFruit.id);
+            this.fruitCollidingWithCeiling.delete(collisionFruit.id);
+          }
         }
-      });
+      );
     }
 
     return newFruit;
@@ -117,6 +119,40 @@ export class Main extends Phaser.Scene {
 
   setUpcomingFruit(fruit: FruitType) {
     this.state.setUpcomingFruit(fruit);
+  }
+
+  mergeFruit(fruitBodyA: MatterJS.BodyType, fruitBodyB: MatterJS.BodyType) {
+    const fruitIndex = fruits.findIndex(
+      (fruit) => fruit.name === fruitBodyA.gameObject?.name
+    );
+
+    if (fruitIndex === -1) {
+      return;
+    }
+
+    const fruitScore = (fruitIndex + 1) * 2;
+    this.setScore(this.state.score + fruitScore);
+
+    fruitBodyA.gameObject.destroy();
+    fruitBodyB.gameObject.destroy();
+
+    const newFruit = fruits[fruitIndex + 1];
+
+    if (!newFruit) {
+      return;
+    }
+
+    const averagedPositionX =
+      (fruitBodyA.position.x + fruitBodyB.position.x) / 2;
+    const averagedPositionY =
+      (fruitBodyA.position.y + fruitBodyB.position.y) / 2;
+
+    const gameObject = this.addFruit(
+      averagedPositionX,
+      averagedPositionY,
+      newFruit
+    );
+    this.group.add(gameObject);
   }
 
   setScore(score: number) {
@@ -139,7 +175,7 @@ export class Main extends Phaser.Scene {
     this.debugState = newState;
   };
 
-  handlePointerMove = (pointer) => {
+  handlePointerMove = (pointer: Phaser.Input.Pointer) => {
     if (this.state.isGameOver || !this.state.isStarted) {
       return;
     }
@@ -157,6 +193,11 @@ export class Main extends Phaser.Scene {
     }
 
     const upcomingFruit = this.state.upcomingFruit;
+
+    if (!upcomingFruit) {
+      console.error('No upcoming fruit found.');
+      return;
+    }
 
     this.dropper.setVisible(false);
     this.time.delayedCall(500, () => {
@@ -185,46 +226,16 @@ export class Main extends Phaser.Scene {
     );
   };
 
-  handleCollisionStart = (event) => {
+  handleCollisionStart = (
+    event: Phaser.Physics.Matter.Events.CollisionStartEvent
+  ) => {
     if (this.debugState.disableMerging) {
       return;
     }
 
     for (const pair of event.pairs) {
       if (pair.bodyA.gameObject?.name === pair.bodyB.gameObject?.name) {
-        const fruitIndex = fruits.findIndex(
-          (fruit) => fruit.name === pair.bodyA.gameObject?.name
-        );
-
-        if (fruitIndex === -1) {
-          continue;
-        }
-
-        const fruitScore = (fruitIndex + 1) * 2;
-        this.setScore(this.state.score + fruitScore);
-
-        pair.bodyA.gameObject.destroy();
-        pair.bodyB.gameObject.destroy();
-
-        const newFruit = fruits[fruitIndex + 1];
-
-        if (!newFruit) {
-          continue;
-        }
-
-        const averagedPositionX =
-          (pair.bodyA.position.x + pair.bodyB.position.x) / 2;
-        const averagedPositionY =
-          (pair.bodyA.position.y + pair.bodyB.position.y) / 2;
-
-        const gameObject = this.addFruit(
-          averagedPositionX,
-          averagedPositionY,
-          newFruit
-        );
-        this.group.add(gameObject);
-
-        return;
+        this.mergeFruit(pair.bodyA, pair.bodyB);
       }
     }
   };
@@ -295,7 +306,7 @@ export class Main extends Phaser.Scene {
 
     this.input.on('pointermove', this.handlePointerMove);
     this.input.on('pointerup', this.handlePointerUp);
-    this.input.on('pointerupoutside', this.handlePointerUp);
+    // this.input.on('pointerupoutside', this.handlePointerUp);
 
     this.matter.world.on('collisionstart', this.handleCollisionStart);
 
