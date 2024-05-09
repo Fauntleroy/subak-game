@@ -234,7 +234,10 @@ export class Main extends Phaser.Scene {
 
     for (const pair of event.pairs) {
       if (pair.bodyA.gameObject?.name === pair.bodyB.gameObject?.name) {
-        this.mergeFruit(pair.bodyA, pair.bodyB);
+        // get and store references here
+        const fruitBodyA = pair.bodyA;
+        const fruitBodyB = pair.bodyB;
+        this.mergeFruit(fruitBodyA, fruitBodyB);
       }
     }
   };
