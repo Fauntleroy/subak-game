@@ -9,7 +9,7 @@ const EVENTS = {
   CEILING_HIT: 'CEILING_HIT'
 };
 const FRUIT_FRICTION = 0.5;
-const FRUIT_BOUNCE = 0.2;
+const FRUIT_BOUNCE = 0.15;
 
 export class Main extends Phaser.Scene {
   dropper: Phaser.GameObjects.Image;
@@ -21,6 +21,7 @@ export class Main extends Phaser.Scene {
   fruitCollidingWithCeiling: Map<number, number> = new Map();
   state: StoreState;
   debugState;
+  physicsTimeAccumulator: number = 0;
 
   // Sizing utils
   gh = (percent: number) => {
@@ -84,6 +85,7 @@ export class Main extends Phaser.Scene {
       .setDisplaySize(fruitRadiusGw * 2, fruitRadiusGw * 2)
       .setCircle(fruitRadiusGw)
       .setFriction(FRUIT_FRICTION)
+      .setFrictionAir(0.01)
       .setBounce(FRUIT_BOUNCE)
       .setDepth(-1);
 
@@ -332,7 +334,19 @@ export class Main extends Phaser.Scene {
     this.game.events.on('reset', this.handleReset);
   }
 
-  update(time) {
+  updatePhysics(time, delta) {
+    const { deltaMin = 0 } = this.matter.world.runner;
+    this.physicsTimeAccumulator += delta;
+
+    while (this.physicsTimeAccumulator >= deltaMin) {
+      this.matter.step(deltaMin);
+      this.physicsTimeAccumulator -= deltaMin;
+    }
+  }
+
+  update(time, delta) {
+    this.updatePhysics(time, delta);
+
     this.fruitCollidingWithCeiling.forEach((collisionStartTime: number) => {
       if (time - collisionStartTime >= 500) {
         this.events.emit(EVENTS.CEILING_HIT);
