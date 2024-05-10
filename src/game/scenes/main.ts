@@ -125,11 +125,18 @@ export class Main extends Phaser.Scene {
   }
 
   mergeFruit(fruitBodyA: MatterJS.BodyType, fruitBodyB: MatterJS.BodyType) {
-    const fruitIndex = fruits.findIndex(
-      (fruit) => fruit.name === fruitBodyA.gameObject?.name
-    );
+    if (!fruitBodyA.gameObject) {
+      console.error(
+        'mergeFruit requires two bodies with references to a gameObject'
+      );
+      return;
+    }
 
+    const fruitIndex = fruits.findIndex(
+      (fruit) => fruit.name === fruitBodyA.gameObject.name
+    );
     const fruitScore = (fruitIndex + 1) * 2;
+
     this.setScore(this.state.score + fruitScore);
 
     fruitBodyA.gameObject.destroy();
@@ -233,6 +240,10 @@ export class Main extends Phaser.Scene {
     }
 
     for (const pair of event.pairs) {
+      if (!pair.bodyA.gameObject || !pair.bodyA.gameObject) {
+        return;
+      }
+
       if (pair.bodyA.gameObject?.name === pair.bodyB.gameObject?.name) {
         // get and store references here
         const fruitBodyA = pair.bodyA;
