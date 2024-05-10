@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { clamp } from 'lodash-es';
+import { clamp, throttle } from 'lodash-es';
 
 import store, { StoreState } from '../../store';
 import debugStore, { DebugStoreState } from '../../debug-store';
@@ -232,16 +232,17 @@ export class Main extends Phaser.Scene {
     );
   };
 
-  handleCollisionStart = (
+  handleCollision = (
     event: Phaser.Physics.Matter.Events.CollisionStartEvent
   ) => {
+    // debugger;
     if (this.debugState.disableMerging) {
       return;
     }
 
     for (const pair of event.pairs) {
       if (!pair.bodyA.gameObject || !pair.bodyA.gameObject) {
-        return;
+        continue;
       }
 
       if (pair.bodyA.gameObject?.name === pair.bodyB.gameObject?.name) {
@@ -252,6 +253,8 @@ export class Main extends Phaser.Scene {
       }
     }
   };
+
+  handleCollisionActive = throttle(this.handleCollision, 500);
 
   handleCeilingHit = () => {
     this.state.setIsGameOver(true);
@@ -321,7 +324,8 @@ export class Main extends Phaser.Scene {
     this.input.on('pointerup', this.handlePointerUp);
     // this.input.on('pointerupoutside', this.handlePointerUp);
 
-    this.matter.world.on('collisionstart', this.handleCollisionStart);
+    this.matter.world.on('collisionstart', this.handleCollision);
+    this.matter.world.on('collisionactive', this.handleCollisionActive);
 
     this.events.on(EVENTS.CEILING_HIT, this.handleCeilingHit);
 
