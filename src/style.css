@@ -1,3 +1,5 @@
+@import './colors.css';
+
 @font-face {
   font-family: 'Inter';
   src: url('./fonts/inter-variable.woff2') format('woff2 supports variations'),
@@ -12,8 +14,8 @@
   font-size: 14px;
 
   color-scheme: light dark;
-  color: #333;
-  background-color: #dcdcdc;
+  color: var(--color-text);
+  background-color: var(--color-background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,6 +28,17 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+em,
+strong {
+  color: var(--color-emphasized-text);
 }
 
 #app-container {
@@ -60,8 +73,8 @@ body {
 }
 
 button {
-  background: black;
-  color: white;
+  background: var(--color-contrast-background);
+  color: var(--color-contrast-text);
   border: none;
   padding: 0.5em 1em;
   border-radius: 0.5em;
@@ -75,5 +88,5 @@ a {
   text-decoration-thickness: 3px;
   text-underline-offset: 3px;
   color: inherit;
-  text-decoration-color: hsla(0, 0%, 0%, 0.5);
+  text-decoration-color: var(--color-light-border);
 }

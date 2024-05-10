@@ -8,15 +8,9 @@
   font-variant-numeric: tabular-nums;
   font-size: 1.25em;
   line-height: 0.8;
+  color: var(--color-emphasized-text);
 
   @media screen and (max-width: 420px) {
     font-size: 1em;
   }
-}
-
-.character {
-  display: block;
-  background: black;
-  border-radius: 3px;
-  padding: 0.1em;
 }

@@ -1,0 +1,12 @@
+:root {
+  --color-border: hsl(0, 0%, 75%);
+  --color-light-border: hsl(0, 0%, 80%);
+  --color-emphasized-text: hsl(0, 0%, 10%);
+  --color-text: hsl(0, 0%, 20%);
+  --color-light-text: hsl(0, 0%, 35%);
+  --color-very-light-text: hsl(0, 0%, 50%);
+  --color-background: hsl(0, 0%, 92.5%);
+  --color-background-light: hsl(0, 0%, 97.5%);
+  --color-contrast-background: hsl(0, 0%, 10%);
+  --color-contrast-text: hsl(0, 0%, 92.5%);
+}

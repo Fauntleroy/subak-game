@@ -9,7 +9,7 @@
 
 .fruitLoop {
   position: absolute;
-  border: rgba(0, 0, 0, 0.25) 1px solid;
+  border: var(--color-border) 1px solid;
   top: 0;
   right: 10px;
   bottom: 0;
