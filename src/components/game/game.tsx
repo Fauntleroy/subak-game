@@ -30,7 +30,9 @@ export function Game({ gameRef }) {
       render: {
         mipmapFilter: 'LINEAR_MIPMAP_LINEAR',
         antialias: true,
-        roundPixels: false
+        antialiasGL: true,
+        roundPixels: false,
+        pixelArt: false
       },
       physics: {
         default: 'matter',
