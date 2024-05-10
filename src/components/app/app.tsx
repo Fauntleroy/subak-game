@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import cx from 'classnames';
 
+import { AnimatePresence } from 'framer-motion';
+
 import { Game } from '../game/game';
 import { CircleOfEvolution } from '../circle-of-evolution/circle-of-evolution';
 import { GameOverDialog } from '../game-over-dialog/game-over-dialog';
@@ -61,8 +63,12 @@ export function App() {
           <Game gameRef={gameRef} />
         </div>
 
-        {isGameOver && <GameOverDialog gameRef={gameRef} />}
-        {!isGameStarted && <StartDialog />}
+        <div className={css.dialogs}>
+          <AnimatePresence>
+            {isGameOver && <GameOverDialog gameRef={gameRef} />}
+            {!isGameStarted && <StartDialog />}
+          </AnimatePresence>
+        </div>
       </div>
       {isDebugEnabled && <Debug />}
     </>
