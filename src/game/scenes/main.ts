@@ -1,16 +1,23 @@
 import Phaser from 'phaser';
-import { clamp, throttle } from 'lodash-es';
+import { clamp, first, throttle } from 'lodash-es';
 
 import store, { StoreState } from '../../store';
 import debugStore, { DebugStoreState } from '../../debug-store';
-import { FruitType, fruits } from '../../data/fruits';
+import {
+  FruitType,
+  FruitNameType,
+  fruitNames,
+  getFruitByIndex,
+  getFruitByName,
+  getNextFruitByName,
+  getRandomFruit
+} from '../../data/fruits';
+import { Fruit } from '../objects/fruit';
 import { RippleEffect } from '../objects/ripple-effect';
 
 const EVENTS = {
   CEILING_HIT: 'CEILING_HIT'
 };
-const FRUIT_FRICTION = 0.5;
-const FRUIT_BOUNCE = 0.15;
 
 export class Main extends Phaser.Scene {
   dropper: Phaser.GameObjects.Image;
@@ -33,8 +40,8 @@ export class Main extends Phaser.Scene {
   };
 
   preload() {
-    for (const fruit of fruits) {
-      this.load.image(`${fruit.name}`, `${fruit.name}.png`);
+    for (const fruitName of fruitNames) {
+      this.load.image(`${fruitName}`, `${fruitName}.png`);
     }
 
     this.load.image('fruit-pointer', 'fruit-pointer.png');
@@ -78,47 +85,9 @@ export class Main extends Phaser.Scene {
     this.dropperGroup.setX(clampedX);
   }
 
-  addFruit(x: number, y: number, fruit: FruitType) {
-    const fruitRadiusGw = this.gw(fruit.radius);
-    const newFruit = this.matter.add
-      .image(x, y, fruit.name)
-      .setName(fruit.name)
-      .setDisplaySize(fruitRadiusGw * 2, fruitRadiusGw * 2)
-      .setCircle(fruitRadiusGw)
-      .setFriction(FRUIT_FRICTION)
-      .setFrictionAir(0.01)
-      .setBounce(FRUIT_BOUNCE)
-      .setDepth(1);
-
-    // newFruit might already be merged at this point
-    if (newFruit.active) {
-      newFruit.setOnCollideWith(
-        this.ceiling,
-        (
-          collidingBody,
-          collisionData: Phaser.Types.Physics.Matter.MatterCollisionData
-        ) => {
-          const { bodyB } = collisionData;
-          this.fruitCollidingWithCeiling.set(bodyB.id, this.time.now);
-        }
-      );
-
-      newFruit.setOnCollideEnd(
-        (collision: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-          if (
-            collision.bodyA.id === this.ceiling.id ||
-            collision.bodyB.id === this.ceiling.id
-          ) {
-            const collisionFruit =
-              collision.bodyA.id === this.ceiling.id
-                ? collision.bodyB
-                : collision.bodyA;
-
-            this.fruitCollidingWithCeiling.delete(collisionFruit.id);
-          }
-        }
-      );
-    }
+  addFruit(x: number, y: number, fruitName: FruitNameType) {
+    const newFruit = new Fruit(this, x, y, fruitName);
+    this.add.existing(newFruit);
 
     return newFruit;
   }
@@ -135,17 +104,22 @@ export class Main extends Phaser.Scene {
       return;
     }
 
-    const fruitIndex = fruits.findIndex(
-      (fruit) => fruit.name === fruitBodyA.gameObject.name
-    );
-    const fruitScore = (fruitIndex + 1) * 2;
+    const mergingFruitName = fruitBodyA.gameObject.name;
+    const fruitData = getFruitByName(mergingFruitName);
 
-    this.setScore(this.state.score + fruitScore);
+    if (!fruitData) {
+      console.error(
+        `No fruit data matches fruit with name "${mergingFruitName}"`
+      );
+      return;
+    }
+
+    this.setScore(this.state.score + fruitData.points);
 
     fruitBodyA.gameObject.destroy();
     fruitBodyB.gameObject.destroy();
 
-    const newFruit = fruits[fruitIndex + 1];
+    const newFruit = getNextFruitByName(mergingFruitName);
 
     if (!newFruit) {
       return;
@@ -159,7 +133,7 @@ export class Main extends Phaser.Scene {
     const gameObject = this.addFruit(
       averagedPositionX,
       averagedPositionY,
-      newFruit
+      newFruit.name
     );
     this.group.add(gameObject);
 
@@ -223,9 +197,7 @@ export class Main extends Phaser.Scene {
       this.updateDropper(upcomingFruit);
     });
 
-    const currentFruit = fruits.find(
-      (fruit) => fruit.name === this.dropper.name
-    );
+    const currentFruit = getFruitByName(this.dropper.name);
 
     if (!currentFruit) {
       console.error(`No fruit found for value: "${this.dropper.name}"`);
@@ -235,19 +207,16 @@ export class Main extends Phaser.Scene {
     const gameObject = this.addFruit(
       this.dropper.x,
       this.dropper.y,
-      currentFruit
+      currentFruit.name
     );
     this.group.add(gameObject);
 
-    this.setUpcomingFruit(
-      this.debugState.overrideFruit || fruits[Math.floor(Math.random() * 5)]
-    );
+    this.setUpcomingFruit(this.debugState.overrideFruit || upcomingFruit);
   };
 
   handleCollision = (
     event: Phaser.Physics.Matter.Events.CollisionStartEvent
   ) => {
-    // debugger;
     if (this.debugState.disableMerging) {
       return;
     }
@@ -310,8 +279,10 @@ export class Main extends Phaser.Scene {
     this.dropperGroup = this.add.group();
 
     const dropperHeight = ceilingHeight / 2;
+    const firstFruit = getFruitByIndex(0);
+
     this.dropper = this.add
-      .image(this.input.activePointer.x, 0, fruits[0].name)
+      .image(this.input.activePointer.x, 0, firstFruit.name)
       .setY(dropperHeight);
 
     this.dropPointer = this.add
@@ -329,8 +300,9 @@ export class Main extends Phaser.Scene {
     this.dropperGroup.add(this.dropPointer);
     this.dropperGroup.add(this.dropLine);
 
-    this.updateDropper(fruits[0]);
-    this.setUpcomingFruit(fruits[Math.floor(Math.random() * 5)]);
+    this.updateDropper(firstFruit);
+    const upcomingFruit = getRandomFruit();
+    this.setUpcomingFruit(upcomingFruit);
 
     this.input.on('pointermove', this.handlePointerMove);
     this.input.on('pointerup', this.handlePointerUp);

@@ -3,11 +3,11 @@ import css from './next-fruit.module.css';
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Fruit } from '../../store';
+import { NextFruitType } from '../../store';
 import { transition, variants } from './next-fruit.motion';
 
 interface NextFruitProps {
-  nextFruit: Fruit | null;
+  nextFruit: NextFruitType | null;
 }
 
 export function NextFruit({ nextFruit }: NextFruitProps) {

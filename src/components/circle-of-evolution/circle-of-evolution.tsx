@@ -3,12 +3,12 @@ import css from './circle-of-evolution.module.css';
 import React from 'react';
 import { chunk } from 'lodash-es';
 
-import { fruits } from '../../data/fruits';
+import { fruitsArray } from '../../data/fruits';
 
 import { FruitType } from '../../data/fruits';
 
 export function CircleOfEvolution() {
-  const fruitGroups = chunk(fruits, Math.ceil(fruits.length / 2));
+  const fruitGroups = chunk(fruitsArray, Math.ceil(fruitsArray.length / 2));
 
   const fruitGroupsJsx = fruitGroups.map(
     (fruits: FruitType[], fruitGroupIndex: number) => {

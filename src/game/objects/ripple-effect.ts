@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export class RippleEffect extends Phaser.GameObjects.Arc {
   constructor(scene: Phaser.Scene, x: number, y: number, radius: number) {
     super(scene, x, y, radius);
