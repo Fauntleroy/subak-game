@@ -212,7 +212,8 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     );
     this.group.add(gameObject);
 
-    this.setUpcomingFruit(this.debugState.overrideFruit || upcomingFruit);
+    const newUpcomingFruit = getRandomFruit();
+    this.setUpcomingFruit(this.debugState.overrideFruit || newUpcomingFruit);
   };
 
   handleCollision = (
