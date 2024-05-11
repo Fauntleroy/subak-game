@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { clamp, first, throttle } from 'lodash-es';
 
+import { MainSceneInterface } from './main.interface';
 import store, { StoreState } from '../../store';
 import debugStore, { DebugStoreState } from '../../debug-store';
 import {
@@ -19,7 +20,7 @@ const EVENTS = {
   CEILING_HIT: 'CEILING_HIT'
 };
 
-export class Main extends Phaser.Scene {
+export class Main extends Phaser.Scene implements MainSceneInterface {
   dropper: Phaser.GameObjects.Image;
   dropPointer: Phaser.GameObjects.Image;
   dropLine: Phaser.GameObjects.Rectangle;
@@ -316,7 +317,7 @@ export class Main extends Phaser.Scene {
     this.game.events.on('reset', this.handleReset);
   }
 
-  updatePhysics(time, delta) {
+  updatePhysics(time: number, delta: number) {
     const { deltaMin = 0 } = this.matter.world.runner;
     this.physicsTimeAccumulator += delta;
 
@@ -326,7 +327,7 @@ export class Main extends Phaser.Scene {
     }
   }
 
-  update(time, delta) {
+  update(time: number, delta: number) {
     this.updatePhysics(time, delta);
 
     this.fruitCollidingWithCeiling.forEach((collisionStartTime: number) => {

@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import { getFruitByName } from '../../data/fruits';
 
+import { MainSceneInterface } from '../scenes/main.interface';
 import { FruitNameType } from '../../data/fruits';
 
 const FRUIT_FRICTION = 0.5;
@@ -9,7 +10,7 @@ const FRUIT_BOUNCE = 0.15;
 
 export class Fruit extends Phaser.Physics.Matter.Image {
   constructor(
-    scene: Phaser.Scene,
+    scene: MainSceneInterface,
     x: number,
     y: number,
     fruitName: FruitNameType
