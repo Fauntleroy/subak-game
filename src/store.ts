@@ -17,6 +17,8 @@ export interface StoreState {
   setIsMenuOpen: (isMenuOpen: boolean) => void;
   isStarted: boolean;
   setIsStarted: (isStarted: boolean) => void;
+  pointerX: number;
+  setPointerX: (x: number) => void;
 }
 
 const store = createStore<StoreState>((set) => ({
@@ -43,6 +45,11 @@ const store = createStore<StoreState>((set) => ({
   isStarted: false,
   setIsStarted(isStarted: boolean = true) {
     set({ isStarted });
+  },
+
+  pointerX: 0,
+  setPointerX(x: number) {
+    set({ pointerX: x });
   }
 }));
 

@@ -51,10 +51,6 @@ export function Game({ gameRef }) {
         height: GAME_HEIGHT * DPR,
         zoom: 1 / DPR
       }
-      // input: {
-      //   mouse: { target: window },
-      //   touch: { target: window }
-      // }
     });
 
     gameRef.current = game;

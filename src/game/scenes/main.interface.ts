@@ -3,6 +3,7 @@ import MatterJS from 'matter';
 import { FruitNameType, FruitType } from '../../data/fruits';
 import { StoreState } from '../../store';
 import { DebugStoreState } from '../../debug-store';
+import { Fruit } from '../objects/fruit';
 
 export interface MainSceneInterface {
   dropper: Phaser.GameObjects.Image;
@@ -13,14 +14,16 @@ export interface MainSceneInterface {
   ceiling: MatterJS.BodyType;
   fruitCollidingWithCeiling: Map<number, number>;
   state: StoreState;
-  debugState;
-  physicsTimeAccumulator: number = 0;
+  debugState: DebugStoreState;
+  physicsTimeAccumulator: number;
+
+  // Methods
   gh(percent: number): number;
   gw(percent: number): number;
   preload(): void;
   updateDropper(fruit: FruitType): void;
   setDropperX(x: number): void;
-  addFruit(x: number, y: number, fruitName: FruitNameType);
+  addFruit(x: number, y: number, fruitName: FruitNameType): Fruit;
   setUpcomingFruit(fruit: FruitType): void;
   mergeFruit(
     fruitBodyA: MatterJS.BodyType,
@@ -31,7 +34,7 @@ export interface MainSceneInterface {
   handleStoreChange(newState: StoreState): void;
   handleDebugStoreChange(newState: DebugStoreState): void;
   handlePointerMove(pointer: Phaser.Input.Pointer): void;
-  handlePointerUp(): void;
+  handleDrop(): void;
   handleCollision(
     event: Phaser.Physics.Matter.Events.CollisionStartEvent
   ): void;
@@ -43,5 +46,8 @@ export interface MainSceneInterface {
   create(): void;
   updatePhysics(time: number, delta: number): void;
   update(time: number, delta: number): void;
+
+  // Phaser stuff
   matter: Phaser.Physics.Matter.MatterPhysics;
+  time: Phaser.Time.Clock;
 }

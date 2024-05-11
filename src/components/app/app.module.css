@@ -1,4 +1,8 @@
 .app {
+  padding: 150px 200px;
+}
+
+.innerFrame {
   position: relative;
   display: flex;
   flex-direction: row;

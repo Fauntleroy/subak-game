@@ -2,6 +2,7 @@ import css from './app.module.css';
 
 import React, { useRef, useState } from 'react';
 import { useStore } from 'zustand';
+import { useBoundingclientrect } from 'rooks';
 import cx from 'classnames';
 
 import { AnimatePresence } from 'framer-motion';
@@ -21,10 +22,13 @@ export function App() {
   const isDebugEnabled =
     !!urlQuery.get('debug') && urlQuery.get('debug') !== 'false';
   const gameRef = useRef(null);
+  const gameSectionRef = useRef(null);
+  const gameBoundingRect = useBoundingclientrect(gameSectionRef);
   const score = useStore(store, (state) => state.score);
   const nextFruit = useStore(store, (state) => state.upcomingFruit);
   const isGameOver = useStore(store, (state) => state.isGameOver);
   const isGameStarted = useStore(store, (state) => state.isStarted);
+  const setPointerX = useStore(store, (state) => state.setPointerX);
   const [isDropping, setIsDropping] = useState(false);
 
   const className = cx(css.app, {
@@ -32,38 +36,54 @@ export function App() {
     [css.isNotStarted]: !isGameStarted
   });
 
-  function handleGameMouseUp() {
+  function handleAppMouseUp() {
+    if (!gameRef.current) {
+      return;
+    }
+
     setIsDropping(true);
     setTimeout(() => {
       setIsDropping(false);
     }, 250);
+    gameRef.current.events.emit('drop');
+  }
+
+  function handleAppMouseMove(event) {
+    const x = gameBoundingRect?.x || 0;
+    const gameX = event.clientX - x;
+    setPointerX(gameX);
   }
 
   return (
     <>
-      <div className={className}>
-        <section className={css.hud}>
-          <div className={cx(css.nextFruit, css.hudSection)}>
-            <h6 className={css.label}>Next</h6>
-            <NextFruit nextFruit={nextFruit} />
-          </div>
+      <div
+        className={className}
+        onMouseUp={handleAppMouseUp}
+        onMouseMove={handleAppMouseMove}>
+        <div className={css.innerFrame}>
+          <section className={css.hud}>
+            <div className={cx(css.nextFruit, css.hudSection)}>
+              <h6 className={css.label}>Next</h6>
+              <NextFruit nextFruit={nextFruit} />
+            </div>
 
-          <div className={cx(css.score, css.hudSection)}>
-            <h6 className={css.label}>Score</h6>
-            <Score score={score} />
-          </div>
+            <div className={cx(css.score, css.hudSection)}>
+              <h6 className={css.label}>Score</h6>
+              <Score score={score} />
+            </div>
 
-          <div className={cx(css.circleOfEvolution, css.hudSection)}>
-            <h6 className={css.label}>Cycle</h6>
-            <CircleOfEvolution />
-          </div>
-        </section>
+            <div className={cx(css.circleOfEvolution, css.hudSection)}>
+              <h6 className={css.label}>Cycle</h6>
+              <CircleOfEvolution />
+            </div>
+          </section>
 
-        <section
-          className={cx(css.game, { [css.isDropping]: isDropping })}
-          onMouseUp={handleGameMouseUp}>
-          <Game gameRef={gameRef} />
-        </section>
+          <section
+            className={cx(css.game, { [css.isDropping]: isDropping })}
+            ref={gameSectionRef}>
+            <Game gameRef={gameRef} />
+          </section>
+        </div>
 
         <AnimatePresence>
           {isGameOver && <GameOverDialog gameRef={gameRef} />}

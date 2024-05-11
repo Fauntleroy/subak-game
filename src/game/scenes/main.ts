@@ -16,8 +16,9 @@ import {
 import { Fruit } from '../objects/fruit';
 import { RippleEffect } from '../objects/ripple-effect';
 
-const EVENTS = {
-  CEILING_HIT: 'CEILING_HIT'
+export const EVENTS = {
+  CEILING_HIT: 'CEILING_HIT',
+  DROP: 'DROP'
 };
 
 export class Main extends Phaser.Scene implements MainSceneInterface {
@@ -46,6 +47,10 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     }
 
     this.load.image('fruit-pointer', 'fruit-pointer.png');
+  }
+
+  isGameActive() {
+    return !this.state.isGameOver && this.state.isStarted;
   }
 
   updateDropper(fruit: FruitType) {
@@ -176,12 +181,8 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     this.setDropperX(pointer.x);
   };
 
-  handlePointerUp = () => {
-    if (
-      this.state.isGameOver ||
-      !this.state.isStarted ||
-      !this.dropper.visible
-    ) {
+  handleDrop = () => {
+    if (!this.isGameActive() || !this.dropper.visible) {
       return;
     }
 
@@ -306,15 +307,12 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     const upcomingFruit = getRandomFruit();
     this.setUpcomingFruit(upcomingFruit);
 
-    this.input.on('pointermove', this.handlePointerMove);
-    this.input.on('pointerup', this.handlePointerUp);
-    // this.input.on('pointerupoutside', this.handlePointerUp);
-
     this.matter.world.on('collisionstart', this.handleCollision);
     this.matter.world.on('collisionactive', this.handleCollisionActive);
 
     this.events.on(EVENTS.CEILING_HIT, this.handleCeilingHit);
 
+    this.game.events.on('drop', this.handleDrop);
     this.game.events.on('reset', this.handleReset);
   }
 
@@ -336,5 +334,10 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
         this.events.emit(EVENTS.CEILING_HIT);
       }
     });
+
+    // set pointer x
+    if (this.isGameActive()) {
+      this.setDropperX(this.state.pointerX * window.devicePixelRatio);
+    }
   }
 }
