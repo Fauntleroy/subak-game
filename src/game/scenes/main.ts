@@ -4,6 +4,7 @@ import { clamp, throttle } from 'lodash-es';
 import store, { StoreState } from '../../store';
 import debugStore, { DebugStoreState } from '../../debug-store';
 import { FruitType, fruits } from '../../data/fruits';
+import { RippleEffect } from '../objects/ripple-effect';
 
 const EVENTS = {
   CEILING_HIT: 'CEILING_HIT'
@@ -87,7 +88,7 @@ export class Main extends Phaser.Scene {
       .setFriction(FRUIT_FRICTION)
       .setFrictionAir(0.01)
       .setBounce(FRUIT_BOUNCE)
-      .setDepth(-1);
+      .setDepth(1);
 
     // newFruit might already be merged at this point
     if (newFruit.active) {
@@ -161,6 +162,15 @@ export class Main extends Phaser.Scene {
       newFruit
     );
     this.group.add(gameObject);
+
+    //effect
+    const rippleEffect = new RippleEffect(
+      this,
+      averagedPositionX,
+      averagedPositionY,
+      this.gw(newFruit.radius)
+    );
+    this.add.existing(rippleEffect);
   }
 
   setScore(score: number) {
