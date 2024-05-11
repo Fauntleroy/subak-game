@@ -42,33 +42,33 @@ export function App() {
   return (
     <>
       <div className={className}>
-        <div className={cx(css.nextFruit, css.hudSection)}>
-          <h6 className={css.label}>Next</h6>
-          <NextFruit nextFruit={nextFruit} />
-        </div>
+        <section className={css.hud}>
+          <div className={cx(css.nextFruit, css.hudSection)}>
+            <h6 className={css.label}>Next</h6>
+            <NextFruit nextFruit={nextFruit} />
+          </div>
 
-        <div className={cx(css.score, css.hudSection)}>
-          <h6 className={css.label}>Score</h6>
-          <Score score={score} />
-        </div>
+          <div className={cx(css.score, css.hudSection)}>
+            <h6 className={css.label}>Score</h6>
+            <Score score={score} />
+          </div>
 
-        <div className={cx(css.circleOfEvolution, css.hudSection)}>
-          <h6 className={css.label}>Cycle</h6>
-          <CircleOfEvolution />
-        </div>
+          <div className={cx(css.circleOfEvolution, css.hudSection)}>
+            <h6 className={css.label}>Cycle</h6>
+            <CircleOfEvolution />
+          </div>
+        </section>
 
-        <div
+        <section
           className={cx(css.game, { [css.isDropping]: isDropping })}
           onMouseUp={handleGameMouseUp}>
           <Game gameRef={gameRef} />
-        </div>
+        </section>
 
-        <div className={css.dialogs}>
-          <AnimatePresence>
-            {isGameOver && <GameOverDialog gameRef={gameRef} />}
-            {!isGameStarted && <StartDialog />}
-          </AnimatePresence>
-        </div>
+        <AnimatePresence>
+          {isGameOver && <GameOverDialog gameRef={gameRef} />}
+          {!isGameStarted && <StartDialog />}
+        </AnimatePresence>
       </div>
       {isDebugEnabled && <Debug />}
     </>
