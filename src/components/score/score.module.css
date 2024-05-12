@@ -6,6 +6,7 @@
   font-style: normal;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  font-feature-settings: 'ss01';
   font-size: 1.25em;
   line-height: 0.8;
   color: var(--color-emphasized-text);
