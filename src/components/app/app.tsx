@@ -36,7 +36,7 @@ export function App() {
     [css.isNotStarted]: !isGameStarted
   });
 
-  function handleAppMouseUp() {
+  function handleAppPointerUp() {
     if (!gameRef.current) {
       return;
     }
@@ -48,9 +48,11 @@ export function App() {
     gameRef.current.events.emit('drop');
   }
 
-  function handleAppMouseMove(event) {
+  function handleAppPointerMove(event) {
+    const pointerX =
+      event.type === 'touchmove' ? event.touches[0].clientX : event.clientX;
     const x = gameBoundingRect?.x || 0;
-    const gameX = event.clientX - x;
+    const gameX = pointerX - x;
     setPointerX(gameX);
   }
 
@@ -58,8 +60,10 @@ export function App() {
     <>
       <div
         className={className}
-        onMouseUp={handleAppMouseUp}
-        onMouseMove={handleAppMouseMove}>
+        onMouseUp={handleAppPointerUp}
+        onTouchEnd={handleAppPointerUp}
+        onMouseMove={handleAppPointerMove}
+        onTouchMove={handleAppPointerMove}>
         <div className={css.innerFrame}>
           <section className={css.hud}>
             <div className={cx(css.nextFruit, css.hudSection)}>
