@@ -16,7 +16,7 @@
   color: var(--color-text);
   border: none;
   border-radius: 10px;
-  max-width: 260px;
+  max-width: 22em;
 
   display: flex;
   flex-direction: column;

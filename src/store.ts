@@ -21,6 +21,7 @@ export interface StoreState {
   setPointerX: (x: number) => void;
   isLeaderboardOpen: boolean;
   setIsLeaderboardOpen: (isLeaderboardOpen: boolean) => void;
+  startTime: number;
 }
 
 const store = createStore<StoreState>((set) => ({
@@ -57,7 +58,9 @@ const store = createStore<StoreState>((set) => ({
   isLeaderboardOpen: false,
   setIsLeaderboardOpen(isLeaderboardOpen: boolean) {
     set({ isLeaderboardOpen });
-  }
+  },
+
+  startTime: Date.now()
 }));
 
 export default store;

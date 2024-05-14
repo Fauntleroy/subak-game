@@ -5,7 +5,7 @@ import { useStore } from 'zustand';
 
 import store from '../../store';
 import debugStore from '../../debug-store';
-import { fruits } from '../../data/fruits';
+import { fruitsArray } from '../../data/fruits';
 
 export function Debug() {
   const [upcomingFruit, setUpcomingFruit] = useStore(store, (state) => [
@@ -21,7 +21,7 @@ export function Debug() {
     state.setDisableMerging
   ]);
 
-  const fruitOptions = fruits.map((fruit, i) => {
+  const fruitOptions = fruitsArray.map((fruit, i) => {
     return (
       <option key={fruit.name} value={i}>
         {fruit.name}
@@ -30,7 +30,7 @@ export function Debug() {
   });
 
   function handleFruitOverrideClick(event) {
-    const newFruit = fruits[event.target.value];
+    const newFruit = fruitsArray[event.target.value];
     setUpcomingFruit(newFruit);
     setOverrideFruit(newFruit);
   }

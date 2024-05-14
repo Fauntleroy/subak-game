@@ -6,7 +6,7 @@ import { subakGameIndexedDb } from '../../indexed-db/score-db';
 
 export function Leaderboard() {
   const scores = useLiveQuery(() =>
-    subakGameIndexedDb.scores.orderBy('points').limit(50).toArray()
+    subakGameIndexedDb.scores.orderBy('points').reverse().limit(50).toArray()
   );
 
   return (
