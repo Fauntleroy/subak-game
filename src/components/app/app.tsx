@@ -7,8 +7,6 @@ import cx from 'classnames';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { subakGameIndexedDb } from '../../indexed-db/score-db';
-
 const Game = (await import('../game/game')).Game;
 import { CircleOfEvolution } from '../circle-of-evolution/circle-of-evolution';
 import { GameOverDialog } from '../game-over-dialog/game-over-dialog';
@@ -40,10 +38,6 @@ export function App() {
   const className = cx(css.app, {
     [css.isGameOver]: isGameOver,
     [css.isNotStarted]: !isGameStarted
-  });
-
-  useEffect(() => {
-    console.log(subakGameIndexedDb);
   });
 
   function handleAppPointerUp() {

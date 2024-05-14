@@ -8,7 +8,7 @@ export function Leaderboard() {
   const scores = useLiveQuery(() =>
     subakGameIndexedDb.scores.orderBy('points').limit(50).toArray()
   );
-  console.log('scores', scores);
+
   return (
     <div className={css.leaderboard}>
       <div>
