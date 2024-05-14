@@ -103,7 +103,7 @@
 .isNotStarted {
   .hudSection,
   .game {
-    filter: grayscale(100%) contrast(0%) opacity(1);
+    filter: grayscale(100%) contrast(25%) opacity(1);
   }
 
   .game {

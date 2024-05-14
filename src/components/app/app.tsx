@@ -1,13 +1,15 @@
 import css from './app.module.css';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import { useBoundingclientrect } from 'rooks';
 import cx from 'classnames';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { Game } from '../game/game';
+import { subakGameIndexedDb } from '../../indexed-db/score-db';
+
+const Game = (await import('../game/game')).Game;
 import { CircleOfEvolution } from '../circle-of-evolution/circle-of-evolution';
 import { GameOverDialog } from '../game-over-dialog/game-over-dialog';
 import { Score } from '../score/score';
@@ -28,12 +30,20 @@ export function App() {
   const nextFruit = useStore(store, (state) => state.upcomingFruit);
   const isGameOver = useStore(store, (state) => state.isGameOver);
   const isGameStarted = useStore(store, (state) => state.isStarted);
+  const setIsLeaderboardOpen = useStore(
+    store,
+    (state) => state.setIsLeaderboardOpen
+  );
   const setPointerX = useStore(store, (state) => state.setPointerX);
   const [isDropping, setIsDropping] = useState(false);
 
   const className = cx(css.app, {
     [css.isGameOver]: isGameOver,
     [css.isNotStarted]: !isGameStarted
+  });
+
+  useEffect(() => {
+    console.log(subakGameIndexedDb);
   });
 
   function handleAppPointerUp() {
@@ -54,6 +64,10 @@ export function App() {
     const x = gameBoundingRect?.x || 0;
     const gameX = pointerX - x;
     setPointerX(gameX);
+  }
+
+  function handleShowLeaderboardClick() {
+    setIsLeaderboardOpen(true);
   }
 
   return (
