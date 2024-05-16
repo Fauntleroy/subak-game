@@ -7,7 +7,7 @@ import cx from 'classnames';
 
 import { AnimatePresence } from 'framer-motion';
 
-const Game = (await import('../game/game')).Game;
+import { Game } from '../game/game';
 import { CircleOfEvolution } from '../circle-of-evolution/circle-of-evolution';
 import { GameOverDialog } from '../game-over-dialog/game-over-dialog';
 import { Score } from '../score/score';
