@@ -4,12 +4,14 @@ import React from 'react';
 import { useStore } from 'zustand';
 
 import store from '../../store';
+import { useTopScores } from '../../hooks/use-top-scores';
 
 import { Dialog } from '../dialog/dialog';
 import { Leaderboard } from '../leaderboard/leaderboard';
 
 export function StartDialog() {
   const setIsStarted = useStore(store, (state) => state.setIsStarted);
+  const scores = useTopScores();
 
   function handleStartClick() {
     setIsStarted(true);
@@ -24,9 +26,7 @@ export function StartDialog() {
         Match fruits to merge them into a bigger fruit. Try to get to a{' '}
         <img className={css.subakIcon} src="./watermelon.png" />.
       </section>
-      <section>
-        <Leaderboard />
-      </section>
+      <section>{scores && <Leaderboard scores={scores} />}</section>
       <footer>
         <button type="button" onClick={handleStartClick}>
           Start Game

@@ -8,7 +8,11 @@
 .scores {
   border: var(--color-light-border) 1px solid;
   border-radius: 10px;
-  max-height: 13em;
+}
+
+.scoresScroll {
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 1em);
+  max-height: 8.5em;
   overflow: auto;
 }
 

@@ -22,6 +22,8 @@ export interface StoreState {
   isLeaderboardOpen: boolean;
   setIsLeaderboardOpen: (isLeaderboardOpen: boolean) => void;
   startTime: number;
+  setNewScoreId: (scoreId: number) => void;
+  newScoreId: number | null;
 }
 
 const store = createStore<StoreState>((set) => ({
@@ -60,7 +62,12 @@ const store = createStore<StoreState>((set) => ({
     set({ isLeaderboardOpen });
   },
 
-  startTime: Date.now()
+  startTime: Date.now(),
+
+  newScoreId: null,
+  setNewScoreId(newScoreId: number) {
+    set({ newScoreId });
+  }
 }));
 
 export default store;

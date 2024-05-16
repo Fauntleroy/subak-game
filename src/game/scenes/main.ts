@@ -13,6 +13,7 @@ import {
   getNextFruitByName,
   getRandomFruit
 } from '../../data/fruits';
+import { subakGameIndexedDb } from '../../indexed-db/score-db';
 import { Fruit } from '../objects/fruit';
 import { RippleEffect } from '../objects/ripple-effect';
 
@@ -165,6 +166,19 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     this.debugState = debugStore.getState();
   };
 
+  async endGame() {
+    this.state.setIsGameOver(true);
+    this.dropper.setVisible(false);
+    this.fruitCollidingWithCeiling.clear();
+    const newScoreId = await subakGameIndexedDb.scores.add({
+      name: '???',
+      points: this.state.score,
+      time: Date.now() - this.state.startTime,
+      createdAt: new Date()
+    });
+    this.state.setNewScoreId(newScoreId);
+  }
+
   handleStoreChange = (newState: StoreState) => {
     this.state = newState;
   };
@@ -241,10 +255,7 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
   handleCollisionActive = throttle(this.handleCollision, 500);
 
   handleCeilingHit = () => {
-    this.state.setIsGameOver(true);
-    this.dropper.setVisible(false);
-    this.fruitCollidingWithCeiling.clear();
-    this.matter.world.pause();
+    this.endGame();
   };
 
   handleReset = () => {
@@ -327,6 +338,10 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
   }
 
   update(time: number, delta: number) {
+    if (!this.isGameActive()) {
+      return;
+    }
+
     this.updatePhysics(time, delta);
 
     this.fruitCollidingWithCeiling.forEach((collisionStartTime: number) => {
@@ -336,8 +351,6 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     });
 
     // set pointer x
-    if (this.isGameActive()) {
-      this.setDropperX(this.state.pointerX * window.devicePixelRatio);
-    }
+    this.setDropperX(this.state.pointerX * window.devicePixelRatio);
   }
 }
