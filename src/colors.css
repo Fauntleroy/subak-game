@@ -8,5 +8,7 @@
   --color-background: hsl(0, 0%, 92.5%);
   --color-background-light: hsl(0, 0%, 97.5%);
   --color-contrast-background: hsl(0, 0%, 10%);
+  --color-contrast-background-light: hsl(0, 0%, 20%);
+  --color-contrast-background-dark: hsl(0, 0%, 0%);
   --color-contrast-text: hsl(0, 0%, 92.5%);
 }
