@@ -167,6 +167,9 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
   };
 
   async endGame() {
+    // game is already over, do nothing
+    if (this.state.isGameOver) return false;
+
     this.state.setIsGameOver(true);
     this.dropper.setVisible(false);
     this.fruitCollidingWithCeiling.clear();
