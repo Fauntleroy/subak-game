@@ -40,6 +40,14 @@ export function App() {
     [css.isNotStarted]: !isGameStarted
   });
 
+  function handleAppPointerDown(event) {
+    const pointerX =
+      event.type === 'touchstart' ? event.touches[0].clientX : event.clientX;
+    const x = gameBoundingRect?.x || 0;
+    const gameX = pointerX - x;
+    setPointerX(gameX);
+  }
+
   function handleAppPointerUp() {
     if (!gameRef.current) {
       return;
@@ -68,6 +76,8 @@ export function App() {
     <>
       <div
         className={className}
+        onMouseDown={handleAppPointerDown}
+        onTouchStart={handleAppPointerDown}
         onMouseUp={handleAppPointerUp}
         onTouchEnd={handleAppPointerUp}
         onMouseMove={handleAppPointerMove}
