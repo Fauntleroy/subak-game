@@ -2,10 +2,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 540px;
   max-width: 100%;
   max-height: 100vh;
-  width: 600px;
-  height: 600px;
+  padding: 1.5em;
 }
 
 .innerFrame {
@@ -15,6 +15,7 @@
   gap: 2em;
   max-width: 100%;
   max-height: 100%;
+  user-select: none;
 
   @media screen and (max-width: 420px) {
     flex-direction: column;
@@ -70,6 +71,7 @@
 .game {
   grid-area: gameplay;
   border: var(--color-border) 1px solid;
+  overflow: hidden;
   border-radius: 10px;
   align-self: center;
 

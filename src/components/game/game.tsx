@@ -16,6 +16,8 @@ const DPR = window.devicePixelRatio || 1;
 export function Game({ gameRef }) {
   const gameElementRef = useRef(null);
   const isGameOver = useStore(store, (state) => state.isGameOver);
+  const isTouchDevice =
+    typeof window.ontouchstart === 'function' || navigator.maxTouchPoints > 0;
 
   const className = cx(css.game, {
     [css.isGameOver]: isGameOver
@@ -60,5 +62,16 @@ export function Game({ gameRef }) {
     };
   }, []);
 
-  return <div className={className} ref={gameElementRef} />;
+  return (
+    <>
+      <div className={className} ref={gameElementRef} />
+      {isTouchDevice && (
+        <div className={css.touchControl}>
+          Press down and slide.
+          <br />
+          Release to drop.
+        </div>
+      )}
+    </>
+  );
 }
