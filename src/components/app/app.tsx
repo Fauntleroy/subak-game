@@ -108,8 +108,10 @@ export function App() {
         </div>
 
         <AnimatePresence>
-          {isGameOver && <GameOverDialog gameRef={gameRef} />}
-          {!isGameStarted && <StartDialog />}
+          <div className={css.dialogs}>
+            {isGameOver && <GameOverDialog gameRef={gameRef} />}
+            {!isGameStarted && <StartDialog />}
+          </div>
         </AnimatePresence>
       </div>
       {isDebugEnabled && <Debug />}
