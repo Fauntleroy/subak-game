@@ -12,3 +12,5 @@ export class SubakGame {
     reactRoot.render(<App />);
   }
 }
+
+export const SubakGameApp = App;
