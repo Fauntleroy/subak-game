@@ -1,8 +1,12 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: './',
   build: {
-    outDir: 'docs'
+    outDir: 'docs',
+    lib: {
+      entry: 'src/index.tsx',
+      name: 'SubakGame',
+      fileName: 'subak-game'
+    }
   }
 });

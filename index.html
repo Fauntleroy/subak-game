@@ -25,6 +25,12 @@
         <main id="root"></main>
       </div>
     </div>
-    <script type="module" src="/src/index.jsx"></script>
+    <script type="module">
+      import { SubakGame } from './src/index.tsx';
+
+      const subakGame = new SubakGame({
+        target: '#subak-game'
+      });
+    </script>
   </body>
 </html>
