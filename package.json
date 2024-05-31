@@ -3,7 +3,17 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "docs/subak-game.js",
+  "main": ".docs/subak-game.umd.cjs",
+  "module": ".docs/subak-game.js",
+  "exports": {
+    ".": {
+      "import": "./docs/subak-game.js",
+      "require": "./docs/subak-game.umd.cjs"
+    }
+  },
+  "files": [
+    "docs"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
