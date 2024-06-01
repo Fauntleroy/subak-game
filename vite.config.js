@@ -5,7 +5,7 @@ export default defineConfig({
   build: {
     outDir: 'docs',
     lib: {
-      entry: 'src/index.tsx',
+      entry: 'src/index.ts',
       name: 'SubakGame',
       fileName: (format) => `subak-game.${format}.js`
     }
