@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "main": "./docs/subak-game.umd.cjs",
-  "module": "./docs/subak-game.js",
+  "module": "./docs/subak-game.es.js",
   "exports": {
     ".": {
-      "import": "./docs/subak-game.js",
+      "import": "./docs/subak-game.es.js",
       "require": "./docs/subak-game.umd.cjs"
     }
   },
@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
     "@types/react": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.0",
     "vite": "^5.2.11"
   },
   "dependencies": {
