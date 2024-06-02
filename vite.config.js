@@ -10,13 +10,13 @@ export default defineConfig({
       fileName: (format) => `subak-game.${format}.js`
     }
   },
-  rollupOptions: {
-    external: ['react', 'react-dom'],
-    output: {
-      globals: {
-        react: 'React'
-      }
-    }
-  },
+  // rollupOptions: {
+  //   external: ['react', 'react-dom'],
+  //   output: {
+  //     globals: {
+  //       react: 'React'
+  //     }
+  //   }
+  // },
   plugins: [vitePluginReact()]
 });

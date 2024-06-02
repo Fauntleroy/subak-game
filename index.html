@@ -26,11 +26,15 @@
       </div>
     </div>
     <script type="module">
-      import { SubakGame } from './src/index.tsx';
+      import { createElement } from 'react';
+      import { createRoot } from 'react-dom/client';
 
-      const subakGame = new SubakGame({
-        target: '#subak-game'
-      });
+      import { SubakGame } from './src/index.ts';
+
+      const appNode = document.querySelector('#root');
+      const root = createRoot(appNode);
+
+      root.render(createElement(SubakGame));
     </script>
   </body>
 </html>
