@@ -1,6 +1,5 @@
 import css from './dialog.module.css';
 
-import React from 'react';
 import { motion } from 'framer-motion';
 
 import { transition, variants } from './dialog.motion';

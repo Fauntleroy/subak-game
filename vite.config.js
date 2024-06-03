@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
-import vitePluginReact from '@vitejs/plugin-react';
+import vitePluginDts from 'vite-plugin-dts';
+import { libInjectCss as vitePluginLibInjectCss } from 'vite-plugin-lib-inject-css';
 
 export default defineConfig({
   build: {
@@ -10,13 +11,14 @@ export default defineConfig({
       fileName: (format) => `subak-game.${format}.js`
     }
   },
-  // rollupOptions: {
-  //   external: ['react', 'react-dom'],
-  //   output: {
-  //     globals: {
-  //       react: 'React'
-  //     }
-  //   }
-  // },
-  plugins: [vitePluginReact()]
+  rollupOptions: {
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
+    output: {
+      globals: {
+        react: 'React',
+        'react-dom': 'reactdom'
+      }
+    }
+  },
+  plugins: [vitePluginLibInjectCss(), vitePluginDts({ include: ['docs'] })]
 });

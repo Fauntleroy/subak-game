@@ -8,7 +8,7 @@ import debugStore from '../../debug-store';
 import { fruitsArray } from '../../data/fruits';
 
 export function Debug() {
-  const [upcomingFruit, setUpcomingFruit] = useStore(store, (state) => [
+  const [, setUpcomingFruit] = useStore(store, (state) => [
     state.upcomingFruit,
     state.setUpcomingFruit
   ]);
@@ -29,14 +29,19 @@ export function Debug() {
     );
   });
 
-  function handleFruitOverrideClick(event) {
-    const newFruit = fruitsArray[event.target.value];
+  function handleFruitOverrideClick(
+    event: React.MouseEvent<HTMLSelectElement>
+  ) {
+    const target = event.target as HTMLSelectElement;
+    const fruitIndex = Number(target.value);
+    const newFruit = fruitsArray[fruitIndex];
     setUpcomingFruit(newFruit);
     setOverrideFruit(newFruit);
   }
 
-  function handleDisableMerging(event) {
-    setDisableMerging(event.target.checked);
+  function handleDisableMerging(event: React.ChangeEvent<HTMLInputElement>) {
+    const target = event.target as HTMLInputElement;
+    setDisableMerging(target.checked);
   }
 
   return (

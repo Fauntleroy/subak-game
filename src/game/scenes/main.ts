@@ -286,7 +286,7 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
       { label: 'ceiling', isSensor: true, isStatic: true }
     );
 
-    const line = this.add
+    this.add
       .rectangle(0, ceilingHeight, this.gw(100), 2, 0x000000)
       .setOrigin(0)
       .setAlpha(0.125)

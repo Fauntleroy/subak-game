@@ -1,6 +1,5 @@
 import css from './circle-of-evolution.module.css';
 
-import React from 'react';
 import { chunk } from 'lodash-es';
 
 import { fruitsArray } from '../../data/fruits';

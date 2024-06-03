@@ -1,6 +1,5 @@
 import css from './game-over-dialog.module.css';
 
-import React, { useState } from 'react';
 import { useStore } from 'zustand';
 
 import store from '../../store';
@@ -9,7 +8,7 @@ import { Dialog } from '../dialog/dialog';
 import { Leaderboard } from '../leaderboard/leaderboard';
 import { useTopScores } from '../../hooks/use-top-scores';
 
-export function GameOverDialog({ gameRef }) {
+export function GameOverDialog({ gameRef }: { gameRef: any }) {
   const score = useStore(store, (state) => state.score);
   const scores = useTopScores();
 
