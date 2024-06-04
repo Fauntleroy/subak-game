@@ -1,6 +1,6 @@
 import css from './game.module.css';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 import cx from 'classnames';
 import { useStore } from 'zustand';
