@@ -2,7 +2,7 @@ import Dexie, { Table } from 'dexie';
 
 export interface ScoreType {
   // so there is an id on here, but it's auto created so idk
-  id: number;
+  id?: number;
   name: string;
   points: number;
   time: number;

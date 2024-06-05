@@ -26,16 +26,15 @@
       </div>
     </div>
     <script type="module">
-      import { createElement } from 'react';
-      import { createRoot } from 'react-dom/client';
+      import React from 'react';
+      import ReactDOM from 'react-dom/client';
+      import { SubakGame } from './dist/subak-game.js';
 
-      import { SubakGame } from './docs/subak-game.es.js';
-      // import { SubakGame } from './src/index.ts';
+      ReactDOM.createRoot(document.getElementById('root')).render(
+        React.createElement(SubakGame)
+      );
 
-      const appNode = document.querySelector('#root');
-      const root = createRoot(appNode);
-
-      root.render(createElement(SubakGame));
+      console.log(SubakGame);
     </script>
   </body>
 </html>

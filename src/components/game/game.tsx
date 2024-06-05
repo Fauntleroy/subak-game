@@ -13,8 +13,12 @@ const GAME_WIDTH = 300;
 const GAME_HEIGHT = GAME_WIDTH * 1.5;
 const DPR = window.devicePixelRatio || 1;
 
-export function Game({ gameRef }) {
-  const gameElementRef = useRef(null);
+interface GameProps {
+  gameRef: React.MutableRefObject<Phaser.Game | null>;
+}
+
+export function Game({ gameRef }: GameProps) {
+  const gameElementRef = useRef<HTMLDivElement>(null);
   const isGameOver = useStore(store, (state) => state.isGameOver);
   const isTouchDevice =
     typeof window.ontouchstart === 'function' || navigator.maxTouchPoints > 0;
@@ -47,7 +51,7 @@ export function Game({ gameRef }) {
           autoUpdate: false
         }
       },
-      parent: gameElementRef.current,
+      parent: gameElementRef.current || undefined,
       scale: {
         width: GAME_WIDTH * DPR,
         height: GAME_HEIGHT * DPR,
@@ -58,7 +62,7 @@ export function Game({ gameRef }) {
     gameRef.current = game;
 
     return () => {
-      gameRef.current.destroy();
+      gameRef?.current?.destroy(false);
     };
   }, []);
 

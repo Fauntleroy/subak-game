@@ -40,7 +40,7 @@ export class Fruit extends Phaser.Physics.Matter.Image {
       this.setOnCollideWith(
         scene.ceiling,
         (
-          collidingBody: Phaser.Types.Physics.Matter.MatterBody,
+          _collidingBody: Phaser.Types.Physics.Matter.MatterBody,
           collisionData: Phaser.Types.Physics.Matter.MatterCollisionData
         ) => {
           const { bodyB } = collisionData;

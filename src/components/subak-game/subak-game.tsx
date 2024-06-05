@@ -1,6 +1,7 @@
 import css from './subak-game.module.css';
 
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+
 import { useStore } from 'zustand';
 import { useBoundingclientrect } from 'rooks';
 import cx from 'classnames';
@@ -21,7 +22,8 @@ export function SubakGame() {
   const urlQuery = new URLSearchParams(window.location.search);
   const isDebugEnabled =
     !!urlQuery.get('debug') && urlQuery.get('debug') !== 'false';
-  const gameRef = useRef(null);
+  const gameRef: React.MutableRefObject<Phaser.Game | null> =
+    useRef<Phaser.Game>(null);
   const gameSectionRef = useRef(null);
   const gameBoundingRect = useBoundingclientrect(gameSectionRef);
   const score = useStore(store, (state) => state.score);
@@ -31,11 +33,9 @@ export function SubakGame() {
   const setPointerX = useStore(store, (state) => state.setPointerX);
   const [isDropping, setIsDropping] = useState(false);
 
-  function handleAppPointerDown(
-    event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
-  ) {
+  function handleAppPointerDown(event: React.SyntheticEvent) {
     const pointerX =
-      event instanceof TouchEvent
+      window.TouchEvent && event instanceof TouchEvent
         ? event.touches[0].clientX
         : event instanceof MouseEvent
         ? event.clientX
@@ -60,7 +60,7 @@ export function SubakGame() {
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
   ) {
     const pointerX =
-      event instanceof TouchEvent
+      window.TouchEvent && event instanceof TouchEvent
         ? event.touches[0].clientX
         : event instanceof MouseEvent
         ? event.clientX

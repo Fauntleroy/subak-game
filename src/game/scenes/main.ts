@@ -23,15 +23,15 @@ export const EVENTS = {
 };
 
 export class Main extends Phaser.Scene implements MainSceneInterface {
-  dropper: Phaser.GameObjects.Image;
-  dropPointer: Phaser.GameObjects.Image;
-  dropLine: Phaser.GameObjects.Rectangle;
-  dropperGroup: Phaser.GameObjects.Group;
-  group: Phaser.GameObjects.Group;
-  ceiling: MatterJS.BodyType;
+  dropper!: Phaser.GameObjects.Image;
+  dropPointer!: Phaser.GameObjects.Image;
+  dropLine!: Phaser.GameObjects.Rectangle;
+  dropperGroup!: Phaser.GameObjects.Group;
+  group!: Phaser.GameObjects.Group;
+  ceiling!: MatterJS.BodyType;
   fruitCollidingWithCeiling: Map<number, number> = new Map();
-  state: StoreState;
-  debugState;
+  state!: StoreState;
+  debugState!: DebugStoreState;
   physicsTimeAccumulator: number = 0;
 
   // Sizing utils
@@ -330,7 +330,7 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     this.game.events.on('reset', this.handleReset);
   }
 
-  updatePhysics(time: number, delta: number) {
+  updatePhysics(_time: number, delta: number) {
     const { deltaMin = 0 } = this.matter.world.runner;
     this.physicsTimeAccumulator += delta;
 
