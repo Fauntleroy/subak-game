@@ -30,7 +30,6 @@
     "vite-plugin-lib-inject-css": "^2.1.1"
   },
   "dependencies": {
-    "@emotion/is-prop-valid": "^1.2.2",
     "classnames": "^2.5.1",
     "dexie": "^4.0.7",
     "dexie-react-hooks": "^1.1.7",

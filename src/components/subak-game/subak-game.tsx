@@ -1,7 +1,6 @@
 import css from './subak-game.module.css';
 
-import React from 'react';
-const { useRef, useState } = React;
+import { useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import { useBoundingclientrect } from 'rooks';
 import cx from 'classnames';
