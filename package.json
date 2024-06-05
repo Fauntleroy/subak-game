@@ -3,21 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "./docs/subak-game.umd.cjs",
-  "module": "./docs/subak-game.es.js",
-  "exports": {
-    ".": {
-      "import": "./docs/subak-game.es.js",
-      "require": "./docs/subak-game.umd.cjs"
-    }
-  },
+  "module": "docs/indexjs",
   "files": [
     "docs"
   ],
   "scripts": {
     "dev": "esbuild src/index.ts --bundle --outdir=docs --watch --servedir=docs",
-    "build": "esbuild src/index.ts --bundle --outfile=docs/subak-game.js",
-    "preview": "vite preview"
+    "build": "node ./scripts/build.mjs",
+    "preview": "vite preview",
+    "h": "esbuild -h"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
