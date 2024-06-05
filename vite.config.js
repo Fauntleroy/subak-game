@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import vitePluginDts from 'vite-plugin-dts';
 import { libInjectCss as vitePluginLibInjectCss } from 'vite-plugin-lib-inject-css';
+import vitePluginReact from '@vitejs/plugin-react-swc';
 
 export default defineConfig({
   build: {
@@ -23,6 +24,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    vitePluginReact(),
     vitePluginLibInjectCss(),
     vitePluginDts({ include: ['docs', 'types'] })
   ]
