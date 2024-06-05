@@ -1,6 +1,6 @@
+import { ScoreType } from '../../indexed-db/score-db';
 import css from './leaderboard.module.css';
 
-import React from 'react';
 import { isEmpty } from 'lodash-es';
 
 const formatter = new Intl.DateTimeFormat('en-US', {
@@ -9,16 +9,10 @@ const formatter = new Intl.DateTimeFormat('en-US', {
   day: '2-digit'
 });
 
-interface Score {
-  id: number;
-  name?: string;
-  points: number;
-  time: number;
-  createdAt: Date;
-}
+interface LeaderboardScoreType extends ScoreType {}
 
 interface LeaderboardProps {
-  scores: Score[];
+  scores: LeaderboardScoreType[] | undefined;
 }
 
 export function Leaderboard({ scores }: LeaderboardProps) {

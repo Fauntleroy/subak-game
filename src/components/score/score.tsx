@@ -1,7 +1,5 @@
 import css from './score.module.css';
 
-import React from 'react';
-
 interface ScoreProps {
   score: number;
 }

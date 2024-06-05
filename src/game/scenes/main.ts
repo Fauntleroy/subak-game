@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { clamp, first, throttle } from 'lodash-es';
+import { clamp, throttle } from 'lodash-es';
 
 import { MainSceneInterface } from './main.interface';
 import store, { StoreState } from '../../store';
@@ -92,7 +92,7 @@ export class Main extends Phaser.Scene implements MainSceneInterface {
     this.dropperGroup.setX(clampedX);
   }
 
-  addFruit(x: number, y: number, fruitName: FruitNameType) {
+  addFruit(x: number, y: number, fruitName: FruitNameType): Fruit {
     const newFruit = new Fruit(this, x, y, fruitName);
     this.add.existing(newFruit);
 

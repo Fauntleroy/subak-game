@@ -1,6 +1,5 @@
 import css from './start-dialog.module.css';
 
-import React from 'react';
 import { useStore } from 'zustand';
 
 import store from '../../store';

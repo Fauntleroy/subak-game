@@ -1,6 +1,5 @@
 import css from './next-fruit.module.css';
 
-import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { NextFruitType } from '../../store';

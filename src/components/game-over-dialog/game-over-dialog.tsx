@@ -1,5 +1,3 @@
-import css from './game-over-dialog.module.css';
-
 import { useStore } from 'zustand';
 
 import store from '../../store';

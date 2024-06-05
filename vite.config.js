@@ -22,5 +22,8 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vitePluginLibInjectCss(), vitePluginDts({ include: ['docs'] })]
+  plugins: [
+    vitePluginLibInjectCss(),
+    vitePluginDts({ include: ['docs', 'types'] })
+  ]
 });
