@@ -1,6 +1,6 @@
 import css from './subak-game.module.css';
 
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { useStore } from 'zustand';
 import { useBoundingclientrect } from 'rooks';
@@ -33,19 +33,30 @@ export function SubakGame() {
   const setPointerX = useStore(store, (state) => state.setPointerX);
   const [isDropping, setIsDropping] = useState(false);
 
-  function handleAppPointerDown(event: React.SyntheticEvent) {
-    const pointerX =
-      window.TouchEvent && event instanceof TouchEvent
-        ? event.touches[0].clientX
-        : event instanceof MouseEvent
-        ? event.clientX
-        : 0;
-    const x = gameBoundingRect?.x || 0;
-    const gameX = pointerX - x;
-    setPointerX(gameX);
+  function handleMouseDown(event: React.MouseEvent<HTMLDivElement>) {
+    const pointerX = event.clientX || 0;
+    handlePointerDown(pointerX);
   }
+  function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    const pointerX = event.touches[0].clientX || 0;
+    handlePointerDown(pointerX);
+  }
+  const handlePointerDown = useCallback(
+    function handlePointerDown(pointerX: number) {
+      const x = gameBoundingRect?.x || 0;
+      const gameX = pointerX - x;
+      setPointerX(gameX);
+    },
+    [gameBoundingRect?.x, setPointerX]
+  );
 
-  function handleAppPointerUp() {
+  function handleMouseUp() {
+    handlePointerUp();
+  }
+  function handleTouchEnd() {
+    handlePointerUp();
+  }
+  function handlePointerUp() {
     if (!gameRef.current) {
       return;
     }
@@ -56,35 +67,38 @@ export function SubakGame() {
     gameRef.current.events.emit('drop');
   }
 
-  function handleAppPointerMove(
-    event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
-  ) {
-    const pointerX =
-      window.TouchEvent && event instanceof TouchEvent
-        ? event.touches[0].clientX
-        : event instanceof MouseEvent
-        ? event.clientX
-        : 0;
-    const x = gameBoundingRect?.x || 0;
-    const gameX = pointerX - x;
-    setPointerX(gameX);
+  function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+    const pointerX = event.clientX || 0;
+    handlePointerMove(pointerX);
   }
+  function handleTouchMove(event: React.TouchEvent<HTMLDivElement>) {
+    const pointerX = event.touches[0].clientX || 0;
+    handlePointerMove(pointerX);
+  }
+  const handlePointerMove = useCallback(
+    function handlePointerMove(pointerX: number) {
+      const x = gameBoundingRect?.x || 0;
+      const gameX = pointerX - x;
+      setPointerX(gameX);
+    },
+    [gameBoundingRect?.x, setPointerX]
+  );
 
   const className = cx(css.subakGame, {
-    [css.isGameOver]: true,
-    [css.isNotStarted]: true
+    [css.isGameOver]: isGameOver,
+    [css.isNotStarted]: !isGameStarted
   });
 
   return (
     <>
       <div
         className={className}
-        onMouseDown={handleAppPointerDown}
-        onTouchStart={handleAppPointerDown}
-        onMouseUp={handleAppPointerUp}
-        onTouchEnd={handleAppPointerUp}
-        onMouseMove={handleAppPointerMove}
-        onTouchMove={handleAppPointerMove}>
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
+        onMouseUp={handleMouseUp}
+        onTouchEnd={handleTouchEnd}
+        onMouseMove={handleMouseMove}
+        onTouchMove={handleTouchMove}>
         <div className={css.innerFrame}>
           <section className={css.hud}>
             <div className={cx(css.nextFruit, css.hudSection)}>
@@ -103,7 +117,9 @@ export function SubakGame() {
             </div>
           </section>
 
-          <section className={cx(css.game, { [css.isDropping]: isDropping })}>
+          <section
+            className={cx(css.game, { [css.isDropping]: isDropping })}
+            ref={gameSectionRef}>
             <Game gameRef={gameRef} />
           </section>
         </div>
