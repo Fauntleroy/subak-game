@@ -33,7 +33,11 @@
         React.createElement(SubakGame)
       );
 
-      console.log(SubakGame);
+      const isInIframe = window.top !== window.self;
+
+      if (isInIframe) {
+        document.body.classList.add('isInIframe');
+      }
     </script>
   </body>
 </html>

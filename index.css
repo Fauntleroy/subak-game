@@ -31,8 +31,17 @@ body {
   place-items: center;
 }
 
+.isInIframe {
+  grid-template-rows: 1fr;
+  grid-template-areas: 'game';
+}
+
 header {
   grid-area: header;
+}
+
+.isInIframe header {
+  display: none;
 }
 
 main {
