@@ -12,8 +12,8 @@
 
 .dialog {
   padding: 1em;
-  background: var(--color-background-light);
-  color: var(--color-text);
+  background: var(--color_background-light);
+  color: var(--color_text);
   border: none;
   border-radius: 10px;
   max-width: 22em;

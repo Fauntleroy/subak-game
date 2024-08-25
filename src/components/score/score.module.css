@@ -9,7 +9,7 @@
   font-feature-settings: 'ss01';
   font-size: 1.25em;
   line-height: 0.8;
-  color: var(--color-emphasized-text);
+  color: var(--color_emphasized-text);
 
   @media screen and (max-width: 420px) {
     font-size: 1em;

@@ -6,7 +6,7 @@
 }
 
 .scores {
-  border: var(--color-light-border) 1px solid;
+  border: var(--color_light-border) 1px solid;
   border-radius: 10px;
 }
 
@@ -36,7 +36,7 @@ table {
 }
 
 td {
-  border-bottom: var(--color-light-border) 1px dotted;
+  border-bottom: var(--color_light-border) 1px dotted;
   padding: 0.4em 0.5em;
 
   &:first-child {
