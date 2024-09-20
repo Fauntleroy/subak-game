@@ -38,17 +38,21 @@
       if (isInIframe) {
         document.body.classList.add('isInIframe');
 
-        function sendPageHeight() {
-          const height = document.body.getBoundingClientRect()?.height;
-          window.parent.postMessage(
-            { eventName: 'pageHeight', data: { height } },
-            '*'
-          );
-        }
+        const iframeBody = document.body; // Get the body of the iframe
 
-        sendPageHeight();
+        const resizeObserver = new ResizeObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.target === document.body) {
+              const newHeight = entry.contentRect.height; // Get the new height of the body
+              window.parent.postMessage(
+                { eventName: 'pageHeight', data: { height } },
+                '*'
+              );
+            }
+          }
+        });
 
-        window.addEventListener('resize', sendPageHeight);
+        resizeObserver.observe(document.body);
       }
     </script>
   </body>
