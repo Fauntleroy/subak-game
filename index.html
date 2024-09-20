@@ -37,6 +37,18 @@
 
       if (isInIframe) {
         document.body.classList.add('isInIframe');
+
+        function sendPageHeight() {
+          const height = document.documentElement.scrollHeight;
+          window.parent.postMessage(
+            { eventName: 'pageHeight', data: { height } },
+            '*'
+          );
+        }
+
+        sendPageHeight();
+
+        window.addEventListener('resize', sendPageHeight);
       }
     </script>
   </body>
