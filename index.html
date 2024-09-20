@@ -29,30 +29,39 @@
       import ReactDOM from 'react-dom/client';
       import { SubakGame } from 'src/components/subak-game/subak-game.tsx';
 
-      ReactDOM.createRoot(document.getElementById('root')).render(
-        React.createElement(SubakGame)
-      );
+      const rootElement = document.getElementById('root');
+
+      ReactDOM.createRoot(rootElement).render(React.createElement(SubakGame));
 
       const isInIframe = window.top !== window.self;
 
       if (isInIframe) {
         document.body.classList.add('isInIframe');
 
-        const iframeBody = document.body; // Get the body of the iframe
-
         const resizeObserver = new ResizeObserver((entries) => {
           for (const entry of entries) {
-            if (entry.target === document.body) {
+            if (entry.target === rootElement) {
               const newHeight = entry.contentRect.height; // Get the new height of the body
               window.parent.postMessage(
-                { eventName: 'pageHeight', data: { height } },
+                { eventName: 'pageHeight', data: { height: newHeight } },
                 '*'
               );
             }
           }
         });
 
-        resizeObserver.observe(document.body);
+        resizeObserver.observe(rootElement);
+
+        // I hate this
+        setTimeout(() => {
+          window.parent.postMessage(
+            {
+              eventName: 'pageHeight',
+              data: { height: rootElement.getBoundingClientRect().height }
+            },
+            '*'
+          );
+        }, 100);
       }
     </script>
   </body>
