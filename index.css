@@ -16,8 +16,7 @@
 
 html,
 body {
-  height: 100%;
-  max-height: 100vh;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -25,8 +24,8 @@ body {
 body {
   background: var(--color_background);
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 2em 1fr;
+  grid-template-columns: minmax(1fr);
+  grid-template-rows: 2em minmax(0, 1fr);
   grid-template-areas: 'header' 'game';
   place-items: center;
 }
