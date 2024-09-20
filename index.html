@@ -39,7 +39,7 @@
         document.body.classList.add('isInIframe');
 
         function sendPageHeight() {
-          const height = document.documentElement.scrollHeight;
+          const height = document.body.getBoundingClientRect()?.height;
           window.parent.postMessage(
             { eventName: 'pageHeight', data: { height } },
             '*'
